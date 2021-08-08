@@ -25,7 +25,7 @@
     "material-design-icons": "^3.0.1",
     "material-design-icons-iconfont": "^5.0.1",
     "minimist": ">=1.2.3",
-    "node-carplay": "^1.0.8",
+    "node-carplay": "^1.0.10",
     "onoff": "^5.0.0",
     "or": "^0.2.0",
     "pi-temperature": "^2.1.0",
