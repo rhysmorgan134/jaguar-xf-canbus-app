@@ -22,7 +22,6 @@ function createWindow () {
         height: 480,
         frame: false,
         kiosk: true,
-
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule:true,
@@ -47,10 +46,10 @@ function createWindow () {
         nightMode: 0,
         hand: 0,
         boxName: 'nodePlay',
-        width: size[0],
-        height: size[1],
+        width: 800,
+        height: 480,
         fps: 30,
-    }
+    })
     const carplay = new Carplay(config)
     carplay.on('status', (data) => {
         if(data.status) {

@@ -20,8 +20,8 @@ class CarplayWindow extends Component {
     }
 
     componentDidMount() {
-        const height = this.divElement.clientHeight
-        const width = this.divElement.clientWidth
+        const height = 480
+        const width = 800
         this.setState({height, width}, () => {
             console.log(this.state.height, this.state.width)
         })

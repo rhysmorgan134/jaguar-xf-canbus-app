@@ -90,7 +90,7 @@ function App({socketConnectT, appDetails}) {
             <CssBaseline />
             <Box className={classes.root} >
                 <HashRouter>
-                    <Box style={{height: '100vh', overflow: 'scroll'}} className={`${classes.content}`}>
+                    <Box style={{height: '100vh', overflow: 'hidden'}} className={`${classes.content}`}>
                         <Switch>
                             <Route exact path="/" component={Climate}/>
                             <Route exact path='/carplay' component={carplay} />
