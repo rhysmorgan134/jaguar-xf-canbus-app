@@ -18,8 +18,8 @@ const Carplay = require('node-carplay')
 function createWindow () {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 800,
-        height: 480,
+        width: 1024,
+        height: 600,
         frame: false,
         kiosk: true,
 
@@ -49,7 +49,7 @@ function createWindow () {
         boxName: 'nodePlay',
         width: size[0],
         height: size[1],
-        fps: 30,
+        fps: 60,
     }
     const carplay = new Carplay(config)
     carplay.on('status', (data) => {

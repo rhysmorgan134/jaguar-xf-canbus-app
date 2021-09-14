@@ -8,7 +8,7 @@ const Utils = require('./Utils');
 const EventEmitter = require('events')
 
 class MsInfo extends EventEmitter{
-    constructor(canIds, outIds, dayGpio, nightGpio, exec, win) {
+    constructor(canIds, outIds, exec, win) {
         super()
         this.bus = 'ms';
         this.canIds = canIds;
@@ -54,7 +54,7 @@ class MsInfo extends EventEmitter{
                 interiorTemp: 0
             }
         };
-        this.utils = new Utils(this.data.brightness, this.brightnessValues, dayGpio, nightGpio, exec, win);
+        this.utils = new Utils(this.data.brightness, this.brightnessValues, exec, win);
         this.utils.on("Light", () => {
             this.data.mode.dark = false
         });
@@ -86,7 +86,8 @@ class MsInfo extends EventEmitter{
 
     parseMessage(message) {
         if(this.IDs.includes(message.id)) {
-            let newData = this.IdModules['Id' + message.id].parseMessage(message.data, message.id);
+            let newData = this.IdModules['Id' + message.id].parseMessage(Buffer.from(message.data), message.id);
+            //console.log(Buffer.from(message.data))
             for (const [key, value] of Object.entries(newData)) {
                 if(typeof value === "object") {
                     for(const [key2, value2] of Object.entries(value)) {

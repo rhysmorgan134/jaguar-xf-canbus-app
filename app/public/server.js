@@ -10,23 +10,23 @@ module.exports = function(window, dev) {
             credentials: true
         }
     });
-    var can = require('socketcan');
+    //var can = require('socketcan');
     var fs = require("fs");
-    var temp = require("pi-temperature");
-    var Gpio = require("onoff").Gpio;
+    // var temp = require("pi-temperature");
+    // var Gpio = require("onoff").Gpio;
     var {exec} = require('child_process');
     var SerialPort = require('serialport');
     const Readline = require('@serialport/parser-readline');
-    const power = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});
-    const home = new Gpio(5, 'in', 'falling', {debounceTimeout: 100});
-    const lights = new Gpio(22, 'out');
-    const noLights = new Gpio(6, 'out');
+    // const power = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});
+    // const home = new Gpio(5, 'in', 'falling', {debounceTimeout: 100});
+    // const lights = new Gpio(22, 'out');
+    // const noLights = new Gpio(6, 'out');
     const path = require('path')
     process.on('sigkill', () => {
         process.kill(camera.getPID())
     });
     if(dev) {
-        var serialPort = new SerialPort('/dev/ttyAMA0')
+        var serialPort = new SerialPort('/dev/SWC')
     } else {
         var serialPort = new SerialPort('/dev/SWC', {
             baudRate: 9600
@@ -57,7 +57,7 @@ module.exports = function(window, dev) {
     let hsInfo = new HsInfo();
 
     const MsInfo = require('./modules/mediumSpeed/MsInfo');
-    let msInfo = new MsInfo(canIds, outIds, noLights, lights, exec, changeWindowColor);
+    let msInfo = new MsInfo(canIds, outIds, exec, changeWindowColor);
 
     // const mainWindow = BrowserWindow.getCurrentWindow();
     //window.setBackgroundColor('#EEEEEE');
@@ -83,93 +83,47 @@ module.exports = function(window, dev) {
 //create indicator object, this sends the status of all leds over the socket
     var indicators = {};
 
-try {
-//create can channel
-    var channel = can.createRawChannel("can0", true);
-    var channel1 = can.createRawChannel("can1", true);
-} catch {
-    console.log("no can device found, creating virtual")
-    exec("sudo modprobe vcan")
-    exec("sudo ip link add dev can0 type vcan")
-    exec("sudo ip link add dev can1 type vcan")
-    exec("sudo ip link set up can0")
-    exec("sudo ip link set up can1")
-     var channel = can.createRawChannel("can0", true);
-    var channel1 = can.createRawChannel("can1", true)
-}
-//channel.setRxFilters = [{ id: 520, mask: 520 }, { id: 40, mask: 40 }, { id: 360, mask: 360 }]
-    channel1.setRxFilters = [{id: 1273, mask: 1273}];
-    channel1.addListener("onMessage", function (msg) {
-        hsInfo.parseMessage(msg);
-    });
-
-
     parser.on('data', function (data) {
         key = parseInt(data.toString());
-        //console.log(typeof (key));
+        console.log(typeof (key));
         if (key === 43) {
             console.log(43)
             var canMsg = {}
-            canMsg.id = 712
+            canMsg.canId = 712
             var tempArr = def
             tempArr[7] = 128
-            canMsg.data = new Buffer(tempArr)
-            channel.send(canMsg)
+            canMsg.message = tempArr
+            io.emit('cmd', canMsg)
+	    console.log(canMsg)
         } else if (key === 45) {
             console.log(45)
             var canMsg = {}
-            canMsg.id = 712
+            canMsg.canId = 712
             var tempArr = def
             tempArr[7] = 126
-            canMsg.data = new Buffer(tempArr)
+            canMsg.message = tempArr
             console.log("sent")
-            channel.send(canMsg)
+            io.emit('cmd', canMsg)
         } else {
             console.log("none")
 //	console.log(key)
         }
     });
 
-    power.watch((err, value) => {
-        exec("sudo shutdown -h now")
-
-
-    });
-
-    home.watch((err, value) => {
-        dash.cyclePage()
-    });
+    // power.watch((err, value) => {
+    //     exec("sudo shutdown -h now")
+    //
+    //
+    // });
+    //
+    // home.watch((err, value) => {
+    //     dash.cyclePage()
+    // });
 
 // create listener for all can bus messages
-    channel.addListener("onMessage", function (msg) {
-        msInfo.parseMessage(msg);
-        //check if message id = 520, hex - 0x208, this contains the statuses sent to the panel
-        if (msg.id === 520) {
-
-            //turn the id to string, so it can be used as the json object key
-            var strId = msg.id.toString()
-
-            //turn the message buffer to an array
-            var arr = [...msg.data]
-
-            //loop though each byte defined in the json
-            for (var k in canIds[strId]) {
-                // console.log(k)
-
-                //for each byte, set the relevant object key bit to the value set in the canbus message through bitwise operation
-                for (i = 0; i < canIds[strId][k].length; i++) {
-                    indicators[canIds[strId][parseInt(k)][i.toString()].handle] = arr[parseInt(k)] & canIds[strId][parseInt(k)][i.toString()].val
-                    //console.log(indicators)
-                }
-                // console.log(arr)
-                // console.log(msg.data[k])
-            }
-            var passT = (arr[7] - 128) / 2
-            var drivT = arr[6] / 2
-            tempCar.passTempText = passT
-            tempCar.driverTempText = drivT
-        }
-    });
+//     channel.addListener("onMessage", function (msg) {
+//
+//     });
 
     app.get('/hs', (req, res) => {
         res.json(hsInfo.dataObj);
@@ -189,8 +143,8 @@ app.get('/', function (req, res) {
 
 
 //can bus channel start
-    channel.start();
-    channel1.start();
+//     channel.start();
+//     channel1.start();
 
 //server start
     server.listen(3000);
@@ -212,6 +166,10 @@ app.get('/', function (req, res) {
             client.leave(data.room)
             io.emit('leaving', data)
         })
+	
+	client.on('button', (data) => {
+	    console.log(data)
+	})
 
         client.on('newAction', (data) => {
             console.log("newaction received", data)
@@ -256,13 +214,45 @@ app.get('/', function (req, res) {
             }
 
             var canMsg = {}
-            canMsg.id = 712
-            canMsg.data = new Buffer(msgOut.data)
-            channel.send(canMsg)
+            canMsg.canId = 712
+            canMsg.message = msgOut.data
+            console.log("sending", msgOut)
+            io.emit('cmd', canMsg)
 
             // console.log(canMsg)
         })
         console.log('Client connected....');
+
+        client.on("medium", (msg) => {
+            //console.log('medium', msg.data)
+            msInfo.parseMessage(msg);
+            //check if message id = 520, hex - 0x208, this contains the statuses sent to the panel
+            if (msg.id === 520) {
+
+                //turn the id to string, so it can be used as the json object key
+                var strId = msg.id.toString()
+
+                //turn the message buffer to an array
+                var arr = [...msg.data]
+
+                //loop though each byte defined in the json
+                for (var k in canIds[strId]) {
+                    //console.log(k)
+
+                    //for each byte, set the relevant object key bit to the value set in the canbus message through bitwise operation
+                    for (i = 0; i < canIds[strId][k].length; i++) {
+                        indicators[canIds[strId][parseInt(k)][i.toString()].handle] = arr[parseInt(k)] & canIds[strId][parseInt(k)][i.toString()].val
+                        //console.log(indicators)
+                    }
+                    // console.log(arr)
+                    // console.log(msg.data[k])
+                }
+                var passT = (arr[7] - 128) / 2
+                var drivT = arr[6] / 2
+                tempCar.passTempText = passT
+                tempCar.driverTempText = drivT
+            }
+        })
 
     })
 
@@ -298,15 +288,15 @@ app.get('/', function (req, res) {
     }, 100)
 
 
-    setInterval(() => {
-        temp.measure(function (err, temp) {
-            if (err) console.error("temperature read error", err);
-            else {
-                info['cpu'] = temp
-            }
-        });
-        io.emit('info', info);
-    }, 500)
+    // setInterval(() => {
+    //     temp.measure(function (err, temp) {
+    //         if (err) console.error("temperature read error", err);
+    //         else {
+    //             info['cpu'] = temp
+    //         }
+    //     });
+    //     io.emit('info', info);
+    // }, 500)
 
 }
 

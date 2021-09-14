@@ -16,9 +16,9 @@ class Id680 {
 
         //loop though each byte defined in the json
         for (let k in this.canIds[strId2]) {
-
             //for each byte, set the relevant object key bit to the value set in the canbus message through bitwise operation
             for (let i = 0; i < this.canIds[strId2][k].length; i++) {
+                //console.log(this.data.settings[this.canIds[strId2][parseInt(k)][i.toString()].handle], this.canIds[strId2][parseInt(k)][i.toString()].handle)
                 this.data.settings[this.canIds[strId2][parseInt(k)][i.toString()].handle] = !!(arr2[parseInt(k)] & this.canIds[strId2][parseInt(k)][i.toString()].val);
             }
         };

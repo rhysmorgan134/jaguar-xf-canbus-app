@@ -18,9 +18,12 @@ class Id40 {
         let arr = [...message];
         this.data.brightness.rawLightResistance = arr[3];
         let inverted = arr[3] / 255;
-        this.data.brightness.adjustedLight = Math.floor((inverted * 100) + 20);
+        this.data.brightness.adjustedLight = inverted.toFixed(2);
+        console.log(this.data.brightness)
         if(this.data.brightness.rawLightResistance > 0 && this.currentBrightness !== this.data.brightness.adjustedLight) {
-            this.exec("sudo sh -c 'echo " + '"' + this.data.brightness.adjustedLight + '"' + " > /sys/class/backlight/rpi_backlight/brightness'");
+            //console.log("xrandr --output DP-1 --brightness" + this.brightnessValues.adjustedLight)
+            this.exec("xrandr --output DP-1 --brightness" + this.data.brightness.adjustedLight)
+            //this.exec("sudo sh -c 'echo " + '"' + this.data.brightness.adjustedLight + '"' + " > /sys/class/backlight/rpi_backlight/brightness'");
             this.currentBrightness = this.data.brightness.adjustedLight;
         }
         let gear = arr[4];
