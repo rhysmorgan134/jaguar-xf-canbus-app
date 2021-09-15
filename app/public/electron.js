@@ -4,6 +4,9 @@ const isDev = require('electron-is-dev')
 const Ws = require('./Ws')
 const ws = Ws.ws()
 const Carplay = require('node-carplay')
+const bindings = ['n', 'v', 'b', 'm', ]
+const keys = require('./bindings.json')
+console.log(keys['m'])
 // let installExtension = require('electron-devtools-installer')
 
 // app.whenReady().then(() => {
@@ -29,8 +32,6 @@ function createWindow () {
             contextIsolation: false
         }
     })
-
-    require('./server')(win, isDev);
         //***//
         globalShortcut.register('f5', function() {
             console.log('f5 is pressed')
@@ -49,8 +50,13 @@ function createWindow () {
         width: 800,
         height: 480,
         fps: 30,
-    })
+    }
     const carplay = new Carplay(config)
+   switchHome = () => {
+	win.webContents.send('quit')
+   }
+   require('./server')(win, isDev, switchHome) 
+
     carplay.on('status', (data) => {
         if(data.status) {
             win.webContents.send('plugged')
@@ -60,13 +66,22 @@ function createWindow () {
         console.log("data received", data)
 
     })
+
     carplay.on('quit', () => {
-        win.webContents.send('quit')
+        
     })
+
+    for (const [key, value] of Object.entries(keys)) {
+        globalShortcut.register(key, function () {
+            carplay.sendKey(value)
+        })
+    }
+
     ipcMain.on('click', (event, data) => {
         carplay.sendTouch(data.type, data.x, data.y)
         console.log(data.type, data.x, data.y)
     })
+
     ipcMain.on('statusReq', (event, data) => {
         if(carplay.getStatus()) {
             win.webContents.send('plugged')
