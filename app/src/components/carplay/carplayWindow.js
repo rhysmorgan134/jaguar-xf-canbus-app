@@ -20,8 +20,8 @@ class CarplayWindow extends Component {
     }
 
     componentDidMount() {
-        const height = this.divElement.clientHeight
-        const width = this.divElement.clientWidth
+        const height = 480
+        const width = 800
         this.setState({height, width}, () => {
             console.log(this.state.height, this.state.width)
         })
@@ -87,6 +87,7 @@ class CarplayWindow extends Component {
             this.setState({lastX: x, lastY: y})
             this.setState({mouseDown: true})
             ipcRenderer.send('click', {type: 14, x: x, y: y})
+	    e.preventDefault()
         }
         const handleUp = (e) => {
             console.log("touched end", e)
@@ -95,6 +96,7 @@ class CarplayWindow extends Component {
             let y = this.state.lastY
             this.setState({mouseDown: false})
             ipcRenderer.send('click', {type: 16, x: x, y: y})
+	    e.preventDefault()
         }
 
 
@@ -106,6 +108,7 @@ class CarplayWindow extends Component {
             x = x / this.state.width
             y = y / this.state.height
             ipcRenderer.send('click', {type: 15, x: x, y: y})
+	    e.preventDefault()
         }
 
 

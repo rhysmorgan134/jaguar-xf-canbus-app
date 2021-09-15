@@ -1,4 +1,4 @@
-module.exports = function(window, dev) {
+module.exports = function(window, dev, switchHome) {
     var express = require('express');
     var app = express();
     var server = require('http').createServer(app);
@@ -22,9 +22,7 @@ module.exports = function(window, dev) {
     const lights = new Gpio(22, 'out');
     const noLights = new Gpio(6, 'out');
     const path = require('path')
-    process.on('sigkill', () => {
-        process.kill(camera.getPID())
-    });
+    
     if(dev) {
         var serialPort = new SerialPort('/dev/ttyAMA0')
     } else {
@@ -137,7 +135,7 @@ try {
     });
 
     home.watch((err, value) => {
-        dash.cyclePage()
+        switchHome()
     });
 
 // create listener for all can bus messages

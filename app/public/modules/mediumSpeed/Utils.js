@@ -15,29 +15,15 @@ class Utils extends EventEmitter {
 
         setInterval(this.checkDayNight.bind(this), 100);
         setInterval(this.adjustAmbient.bind(this), 500);
-        setInterval(() => {
-            let dashMode = true;
-            if(dashMode !== this.isNight) {
-                if(this.isNight) {
-                    this.dash.mode('Dark')
-                    this.emit("Dark")
-                } else {
-                    this.dash.mode('Light')
-                    this.emit("Light")
-                }
-            }
-            }, 1000)
 
     }
 
     checkDayNight() {
         if(this.brightnessValues.rawLightResistance > 0 && this.isNight === false) {
-            this.dash.mode('Dark')
             console.log("Changed to night");
             this.isNight = true;
             this.emit("Dark")
         } else if (this.brightnessValues.rawLightResistance === 0 && this.isNight === true){
-            this.dash.mode('Light')
             this.emit("Light")
             console.log("Changed to day");
             this.isNight = false;
