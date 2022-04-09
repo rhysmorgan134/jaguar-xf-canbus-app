@@ -17,10 +17,12 @@ module.exports = function(window, dev, switchHome) {
     var {exec} = require('child_process');
     var SerialPort = require('serialport');
     const Readline = require('@serialport/parser-readline');
+
     const power = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});
     const home = new Gpio(5, 'in', 'falling', {debounceTimeout: 100});
     const lights = new Gpio(22, 'out');
     const noLights = new Gpio(6, 'out');
+
     const path = require('path')
     
     if(dev) {
