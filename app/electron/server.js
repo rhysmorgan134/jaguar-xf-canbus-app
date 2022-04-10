@@ -1,4 +1,5 @@
-module.exports = function(window, dev, switchHome) {
+//module.exports = function(window, dev, switchHome) {
+module.exports = function(window, dev) {
     var express = require('express');
     var app = express();
     var server = require('http').createServer(app);
@@ -18,20 +19,20 @@ module.exports = function(window, dev, switchHome) {
     var SerialPort = require('serialport');
     const Readline = require('@serialport/parser-readline');
 
-    const power = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});
-    const home = new Gpio(5, 'in', 'falling', {debounceTimeout: 100});
-    const lights = new Gpio(22, 'out');
-    const noLights = new Gpio(6, 'out');
+    // const power = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});
+    // const home = new Gpio(5, 'in', 'falling', {debounceTimeout: 100});
+    // const lights = new Gpio(22, 'out');
+    // const noLights = new Gpio(6, 'out');
 
     const path = require('path')
     
-    if(dev) {
-        var serialPort = new SerialPort('/dev/ttyAMA0')
-    } else {
-        var serialPort = new SerialPort('/dev/SWC', {
-            baudRate: 9600
-        })
-    }
+    // if(dev) {
+    //     var serialPort = new SerialPort('/dev/ttyAMA0')
+    // } else {
+    //     var serialPort = new SerialPort('/dev/SWC', {
+    //         baudRate: 9600
+    //     })
+    // }
    if(dev) {
 	app.use(express.static(path.join(__dirname, '../build/')))
    } else {
@@ -57,14 +58,15 @@ module.exports = function(window, dev, switchHome) {
     let hsInfo = new HsInfo();
 
     const MsInfo = require('./modules/mediumSpeed/MsInfo');
-    let msInfo = new MsInfo(canIds, outIds, noLights, lights, exec, changeWindowColor);
+    //let msInfo = new MsInfo(canIds, outIds, noLights, lights, exec, changeWindowColor);
+    let msInfo = new MsInfo(canIds, outIds, exec, changeWindowColor);
 
     // const mainWindow = BrowserWindow.getCurrentWindow();
     //window.setBackgroundColor('#EEEEEE');
     //window.blur();
     //window.focus();
 
-    const parser = serialPort.pipe(new Readline({delimiter: '\r\n'}))
+    //const parser = serialPort.pipe(new Readline({delimiter: '\r\n'}))
 
 //default array to use as the buffer to send can messages when no new changes
     var def = [203, 0, 0, 0, 0, 0, 127, 127];
@@ -104,41 +106,41 @@ try {
     });
 
 
-    parser.on('data', function (data) {
-        key = parseInt(data.toString());
-        //console.log(typeof (key));
-        if (key === 43) {
-            console.log(43)
-            var canMsg = {}
-            canMsg.id = 712
-            var tempArr = def
-            tempArr[7] = 128
-            canMsg.data = new Buffer(tempArr)
-            channel.send(canMsg)
-        } else if (key === 45) {
-            console.log(45)
-            var canMsg = {}
-            canMsg.id = 712
-            var tempArr = def
-            tempArr[7] = 126
-            canMsg.data = new Buffer(tempArr)
-            console.log("sent")
-            channel.send(canMsg)
-        } else {
-            console.log("none")
-//	console.log(key)
-        }
-    });
-
-    power.watch((err, value) => {
-        exec("sudo shutdown -h now")
-
-
-    });
-
-    home.watch((err, value) => {
-        switchHome()
-    });
+//     parser.on('data', function (data) {
+//         key = parseInt(data.toString());
+//         //console.log(typeof (key));
+//         if (key === 43) {
+//             console.log(43)
+//             var canMsg = {}
+//             canMsg.id = 712
+//             var tempArr = def
+//             tempArr[7] = 128
+//             canMsg.data = new Buffer(tempArr)
+//             channel.send(canMsg)
+//         } else if (key === 45) {
+//             console.log(45)
+//             var canMsg = {}
+//             canMsg.id = 712
+//             var tempArr = def
+//             tempArr[7] = 126
+//             canMsg.data = new Buffer(tempArr)
+//             console.log("sent")
+//             channel.send(canMsg)
+//         } else {
+//             console.log("none")
+// //	console.log(key)
+//         }
+//     });
+//
+//     power.watch((err, value) => {
+//         exec("sudo shutdown -h now")
+//
+//
+//     });
+//
+//     home.watch((err, value) => {
+//         switchHome()
+//     });
 
 // create listener for all can bus messages
     channel.addListener("onMessage", function (msg) {
@@ -157,7 +159,7 @@ try {
                 // console.log(k)
 
                 //for each byte, set the relevant object key bit to the value set in the canbus message through bitwise operation
-                for (i = 0; i < canIds[strId][k].length; i++) {
+                for (let i = 0; i < canIds[strId][k].length; i++) {
                     indicators[canIds[strId][parseInt(k)][i.toString()].handle] = arr[parseInt(k)] & canIds[strId][parseInt(k)][i.toString()].val
                     //console.log(indicators)
                 }
@@ -179,13 +181,13 @@ try {
         res.json({theme: !(msInfo.utils.isNight)});
     });
 
-app.get('/', function (req, res) {
-  if(dev) {
-	res.sendFile(path.join(__dirname, '../build/index.html'))
-} else {
-  res.sendFile(path.join(__dirname, 'index.html'));
-}
-});
+// app.get('/', function (req, res) {
+//   if(dev) {
+// 	res.sendFile(path.join(__dirname, '../build/index.html'))
+// } else {
+//   res.sendFile(path.join(__dirname, 'index.html'));
+// }
+//});
 
 
 //can bus channel start
@@ -298,15 +300,15 @@ app.get('/', function (req, res) {
     }, 100)
 
 
-    setInterval(() => {
-        temp.measure(function (err, temp) {
-            if (err) console.error("temperature read error", err);
-            else {
-                info['cpu'] = temp
-            }
-        });
-        io.emit('info', info);
-    }, 500)
+    // setInterval(() => {
+    //     temp.measure(function (err, temp) {
+    //         if (err) console.error("temperature read error", err);
+    //         else {
+    //             info['cpu'] = temp
+    //         }
+    //     });
+    //     io.emit('info', info);
+    // }, 500)
 
 }
 
