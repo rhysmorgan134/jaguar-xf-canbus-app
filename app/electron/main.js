@@ -1,6 +1,7 @@
 const path = require('path');
 const url = require('url');
 const {app, BrowserWindow, ipcMain, ipcRenderer, globalShortcut} = require('electron');
+const {channels} = require('../src/shared/constants');
 const { Readable } = require('stream');
 const isDev = require('electron-is-dev');
 const WebSocket = require('ws');
@@ -73,10 +74,11 @@ function createWindow() {
     console.log("spawning carplay", config)
     const carplay = new Carplay(config, mp4Reader)
 
-    switchHome = () => {
-        mainWindow.webContents.send('quit')
-    }
-    require('./server')(mainWindow, isDev, switchHome)
+    // switchHome = () => {
+    //     mainWindow.webContents.send('quit')
+    // }
+    //require('./server')(mainWindow, isDev, switchHome)
+    require('./server')(mainWindow, isDev)
     carplay.on('status', (data) => {
         if(data.status) {
             mainWindow.webContents.send('plugged')

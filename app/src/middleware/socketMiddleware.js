@@ -25,7 +25,8 @@ const socketMiddleware = () => {
     return store => next => action => {
         switch (action.type) {
             case SOCKET_CONNECT:
-                socket = io({transports: ['websocket'], upgrade: false}).connect('localhost:3000');
+                console.log("connecting")
+                socket = io("http://localhost:3000", {transports: ['websocket'], upgrade: false}).connect('http://localhost:3000');
 
                 socket.on('connect', (data) => {
                     //onOpen(store)

@@ -33,7 +33,7 @@ class CarplayWindow extends Component {
             maxDelay: 10,
             fps: 60,
             flushingTime: 1,
-            debug: true
+            debug: false
         });
         const height = this.divElement.clientHeight
         const width = this.divElement.clientWidth

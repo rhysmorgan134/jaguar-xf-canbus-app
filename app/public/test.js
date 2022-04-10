@@ -1,1 +1,1 @@
-const server = require('./server.js')()
+const server = require('../electron/server.js')()

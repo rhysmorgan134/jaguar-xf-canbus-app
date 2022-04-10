@@ -1,6 +1,7 @@
 import {CURRENT_PAGE, LEAVE_PAGE, MS_ACTION, SOCKET_ACTION, SOCKET_CONNECT} from "./types";
 
 export const socketConnectT = (host) => {
+    console.log("connecting host", host)
     return {type: SOCKET_CONNECT, host}
 }
 
