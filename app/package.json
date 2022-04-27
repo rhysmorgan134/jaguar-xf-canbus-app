@@ -18,11 +18,13 @@
     "electron-is-dev": "^1.2.0",
     "express": "^4.17.1",
     "jmuxer": "^2.0.3",
+    "node-abi": "^3.8.0",
     "node-carplay": "^2.0.8",
     "onoff": "^5.0.0",
     "pi-temperature": "^2.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-player": "^2.10.0",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -35,6 +37,7 @@
     "socketcan": "^2.5.0",
     "typeface-roboto": "^1.1.13",
     "usb": "^1.7.1",
+    "video-react": "^0.15.0",
     "web-vitals": "^0.2.4",
     "yarn": "^1.22.10"
   },
@@ -72,10 +75,10 @@
     "publish": null
   },
   "devDependencies": {
-    "electron": "^13.1.8",
-    "electron-builder": "^22.11.7",
+    "electron": "^18.0.4",
+    "electron-builder": "^23.0.6",
     "electron-devtools-installer": "^3.1.1",
-    "electron-rebuild": "^2.3.5",
+    "electron-rebuild": "^3.2.7",
     "nodemon": "^1.19.4"
   }
 }
