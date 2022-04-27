@@ -6,7 +6,7 @@ import 'typeface-roboto'
 import { Provider } from 'react-redux'
 import store from "./store";
 import socketMiddleware from "./middleware/socketMiddleware";
-
+ 
 ReactDOM.render(
     <Provider store={store}>
     <App />

@@ -28,6 +28,8 @@ wss.on('connection', function connection(ws) {
     });
 });
 
+
+
 let mainWindow;
 
 function createWindow() {
@@ -69,7 +71,7 @@ function createWindow() {
         boxName: 'nodePlay',
         width: size[0],
         height: size[1],
-        fps: 60,
+        fps: 30,
     }
     console.log("spawning carplay", config)
     const carplay = new Carplay(config, mp4Reader)
@@ -78,7 +80,7 @@ function createWindow() {
     //     mainWindow.webContents.send('quit')
     // }
     //require('./server')(mainWindow, isDev, switchHome)
-    require('./server')(mainWindow, isDev)
+   require('./server')(mainWindow, isDev, mp4Reader)
     carplay.on('status', (data) => {
         if(data.status) {
             mainWindow.webContents.send('plugged')

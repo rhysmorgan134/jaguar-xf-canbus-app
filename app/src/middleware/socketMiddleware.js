@@ -32,7 +32,7 @@ const socketMiddleware = () => {
                     //onOpen(store)
                     console.log("connected!")
                     store.dispatch({type: SOCKET_CONNECTED, payload: true})
-                    socket.emit('join', {room: 'climate'})
+                    socket.emit('join', {room: 'carplay'})
                     socket.emit('join', {room: 'general'})
                 })
 

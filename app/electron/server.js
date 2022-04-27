@@ -1,5 +1,5 @@
 //module.exports = function(window, dev, switchHome) {
-module.exports = function(window, dev) {
+module.exports = function(window, dev, mp4Reader) {
     var express = require('express');
     var app = express();
     var server = require('http').createServer(app);
@@ -23,7 +23,8 @@ module.exports = function(window, dev) {
     // const home = new Gpio(5, 'in', 'falling', {debounceTimeout: 100});
     // const lights = new Gpio(22, 'out');
     // const noLights = new Gpio(6, 'out');
-
+    let buffers = []
+    let count = 0
     const path = require('path')
     
     // if(dev) {
@@ -299,6 +300,15 @@ try {
         //console.log(out)
     }, 100)
 
+    mp4Reader.on('data', (chunk) => {
+        //console.log("emitting carplay chunk")
+        // buffers.push(chunk)
+        // if(buffers.length >= 10) {
+        //    io.emit('carplay', Buffer.concat(buffers))
+        //    buffers = []
+        // }
+	io.emit('carplay', chunk)
+    })
 
     // setInterval(() => {
     //     temp.measure(function (err, temp) {
