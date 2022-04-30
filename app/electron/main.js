@@ -90,6 +90,9 @@ function createWindow() {
         console.log("data received", data)
 
     })
+    carplay.on('quit', () => {
+        mainWindow.webContents.send('quit')
+    })
     ipcMain.on('click', (event, data) => {
         carplay.sendTouch(data.type, data.x, data.y)
         console.log(data.type, data.x, data.y)

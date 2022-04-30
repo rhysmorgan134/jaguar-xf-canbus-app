@@ -37,7 +37,6 @@
     "socketcan": "^2.5.0",
     "typeface-roboto": "^1.1.13",
     "usb": "^1.7.1",
-    "video-react": "^0.15.0",
     "web-vitals": "^0.2.4",
     "yarn": "^1.22.10"
   },
@@ -75,7 +74,7 @@
     "publish": null
   },
   "devDependencies": {
-    "electron": "^18.0.4",
+    "electron": "^17.1.2",
     "electron-builder": "^23.0.6",
     "electron-devtools-installer": "^3.1.1",
     "electron-rebuild": "^3.2.7",

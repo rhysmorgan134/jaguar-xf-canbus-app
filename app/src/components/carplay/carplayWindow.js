@@ -16,7 +16,8 @@ class CarplayWindow extends Component {
             start: null,
             settings: {
                 fps: 60
-            }
+            },
+            connected: false
         }
 
         this.socket = io('http://localhost:3000')
@@ -24,29 +25,48 @@ class CarplayWindow extends Component {
 
     componentDidMount() {
 
-        this.socket.on('connect', () => {
-            console.log('connected in carplay :)')
-        })
+        this.socket.on('connect', this.connect.bind(this))
 
-        ipcRenderer.on('plugged', () => {
-            this.setState({status: true})
-        })
+        ipcRenderer.on('plugged', this.plugged.bind(this))
 
-        ipcRenderer.on('unplugged', () => {
-            this.setState({status: false})
-        })
+        ipcRenderer.on('unplugged', this.unplugged.bind(this))
 
         ipcRenderer.send('statusReq')
 
-        ipcRenderer.on('quit', () => {
-            this.props.history.push('/climate')
-        })
+        ipcRenderer.on('quit', this.quit.bind(this))
+    }
+
+    componentWillUnmount() {
+        this.socket.off('connect', this.connect)
+        ipcRenderer.removeAllListeners()
+        this.socket.disconnect(true)
+    }
+
+    plugged() {
+        console.log("setting plugged")
+        this.setState({status: true})
+    }
+
+    unplugged() {
+        console.log("setting unplugged")
+        this.setState({status: false})
+    }
+
+    connect() {
+        console.log('connected in carplay :)')
+        this.setState({connected: true})
+    }
+
+    quit() {
+        console.log("leaving quit")
+        this.props.leave()
     }
 
     render() {
 
         const leave = () => {
-    	    this.props.history.push('/climate')
+            console.log("leaving")
+    	    this.props.leave()
         }
 
         const touchEvent = (type, x, y) => {
@@ -64,15 +84,16 @@ class CarplayWindow extends Component {
 
         return (
             <div style={{height: '100%', flexGrow: 1}}>
+                {this.state.connected ?
                 <Carplay
                     settings={this.state.settings}
                     status={this.state.status}
                     touchEvent={touchEvent}
                     changeSetting={changeSetting}
                     reload={reload}
-                    ws={this.ws}
+                    ws={this.socket}
                     type={'socket.io'}
-                />
+                /> : <div>loading</div>}
                     {this.state.status ?
                         <div></div> : <div onClick={leave} style={{marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', flexGrow: '1'}}>CONNECT IPHONE TO BEGIN CARPLAY</div>}
             </div>

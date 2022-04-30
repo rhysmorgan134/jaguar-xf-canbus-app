@@ -5,7 +5,7 @@ import {
     SOCKET_ACTION,
     SOCKET_ENGINE,
     SOCKET_TRIP,
-    CURRENT_PAGE, LEAVE_PAGE, ROOM_JOINED, SOCKET_CLIMATE, MS_ACTION, SOCKET_SETTINGS, GENERAL
+    CURRENT_PAGE, LEAVE_PAGE, ROOM_JOINED, SOCKET_CLIMATE, MS_ACTION, SOCKET_SETTINGS, GENERAL, DISCONNECT
 } from "../actions/types";
 import io from "socket.io-client";
 
@@ -41,7 +41,7 @@ const socketMiddleware = () => {
                 })
 
                 socket.on('disconnect', (reason) => {
-		    console.log("disconnected due to ", reason)
+		            console.log("disconnected due to ", reason)
                     store.dispatch({type: SOCKET_CONNECTED, payload:false})
                 })
 
@@ -88,6 +88,9 @@ const socketMiddleware = () => {
             case MS_ACTION:
                 socket.emit('newAction', action.payload);
                 break;
+            case DISCONNECT:
+                console.log("cleaning up")
+                socket.off()
             // case SOCKET_ENGINE:
             //     console.log("engine info", action.payload);
             // case SOCKET_TRIP:
