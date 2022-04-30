@@ -25,12 +25,12 @@ class Nav extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <BottomNavigation value={this.state.currentNav} onChange={this.navChange} className={classes.root}>
-                <NavButton name={'carplay'}/>
-                <NavButton name={'climate'}/>
-                <NavButton name={'vehicle'}/>
-                <NavButton name={'settings'}/>
-            </BottomNavigation>
+                <BottomNavigation value={this.state.currentNav} onChange={this.navChange} className={classes.root} >
+                    <NavButton name={'carplay'}/>
+                    <NavButton name={'climate'}/>
+                    <NavButton name={'vehicle'}/>
+                    <NavButton name={'settings'}/>
+                </BottomNavigation>
         );
     }
 }

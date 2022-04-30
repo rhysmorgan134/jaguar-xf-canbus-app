@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {HashRouter, Switch, Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux'
 import Settings from "./components/settings/Settings";
@@ -10,9 +10,9 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {createMuiTheme, CssBaseline, ThemeProvider} from "@material-ui/core"
 import {makeStyles, responsiveFontSizes} from "@material-ui/core/styles";
 import Box from '@material-ui/core/Box';
-import {socketConnectT} from "./actions";
+import {socketConnectT, disconnect} from "./actions";
 import {useComponentWillMount} from "./helpers/componetWillMountHelper";
-import carplay from "./components/carplay/carplay";
+import Carplay from "./components/carplay/carplay";
 
 //const electron = window.require("electron");
 
@@ -83,7 +83,16 @@ function App({socketConnectT, appDetails}) {
     const connectSocket = () => {
         socketConnectT("localhost:3000")
     }
+
     useComponentWillMount(connectSocket)
+
+    useEffect(() => {
+        return () => {
+            disconnect()
+        };
+    }, []);
+
+
 
     return (
         <ThemeProvider theme={theme} >
@@ -92,8 +101,8 @@ function App({socketConnectT, appDetails}) {
                 <HashRouter>
                     <Box style={{height: '100vh', overflow: 'hidden'}} className={`${classes.content}`}>
                         <Switch>
-                            <Route exact path="/" component={carplay}/>
-                            <Route exact path='/carplay' component={carplay} />
+                            <Route exact path="/" component={Carplay}/>
+                            <Route exact path='/carplay' component={Carplay} />
                             <Route exact path="/climate" component={Climate}/>
                             <Route exact path="/vehicle" component={VehicleInfo}/>
                             <Route exact path="/settings" component={Settings}/>
@@ -111,5 +120,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    socketConnectT: socketConnectT
+    socketConnectT: socketConnectT,
+    disconnect: disconnect
 })(App);
