@@ -18,12 +18,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Climate(props) {
+function Carplay(props) {
     const pageTitle = 'carplay'
 
     const dispatch = useDispatch()
 
     const classes = useStyles();
+
+    const leave = () => {
+        props.history.push('/climate')
+    }
 
     useEffect(() => {
         checkPage(pageTitle)
@@ -34,9 +38,9 @@ function Climate(props) {
 
     return (
         <div className={classes.root}>
-            <CarplayWindow style={{height: '100%', flexGrow: 1}} history={props.history}/>
+            <CarplayWindow style={{height: '100%', flexGrow: 1}} leave={leave}/>
         </div>
     );
 }
 
-export default Climate;
+export default Carplay;
