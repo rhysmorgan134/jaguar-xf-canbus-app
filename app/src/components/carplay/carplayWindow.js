@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import JsmpegPlayer from "./JsmpegPlayer";
-import './CarplayWindow.css';
+import JMuxer from 'jmuxer';
+import io from 'socket.io-client'
+import Carplay from 'react-js-carplay'
 
 const {ipcRenderer} = window;
 
@@ -10,137 +11,91 @@ class CarplayWindow extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            height: 0,
-            width: 0,
-            mouseDown: false,
-            lastX: 0,
-            lastY: 0,
-            status: false
+            status: false,
+            playing: false,
+            start: null,
+            settings: {
+                fps: 60
+            },
+            connected: false
         }
+
+        this.socket = io('http://localhost:3000')
     }
 
     componentDidMount() {
-        const height = 480
-        const width = 800
-        this.setState({height, width}, () => {
-            console.log(this.state.height, this.state.width)
-        })
 
-        ipcRenderer.on('plugged', () => {
-            this.setState({status: true})
-        })
-        ipcRenderer.on('unplugged', () => {
-            this.setState({status: false})
-        })
+        this.socket.on('connect', this.connect.bind(this))
+
+        ipcRenderer.on('plugged', this.plugged.bind(this))
+
+        ipcRenderer.on('unplugged', this.unplugged.bind(this))
+
         ipcRenderer.send('statusReq')
 
-        ipcRenderer.on('quit', () => {
-            this.props.history.push('/climate')
-        })
+        ipcRenderer.on('quit', this.quit.bind(this))
+    }
+
+    componentWillUnmount() {
+        this.socket.off('connect', this.connect)
+        ipcRenderer.removeAllListeners()
+        this.socket.disconnect(true)
+    }
+
+    plugged() {
+        console.log("setting plugged")
+        this.setState({status: true})
+    }
+
+    unplugged() {
+        console.log("setting unplugged")
+        this.setState({status: false})
+    }
+
+    connect() {
+        console.log('connected in carplay :)')
+        this.setState({connected: true})
+    }
+
+    quit() {
+        console.log("leaving quit")
+        this.props.leave()
     }
 
     render() {
 
         const leave = () => {
-    	    this.props.history.push('/climate')
-        }
-        const handleMDown = (e) => {
-            console.log("touched", e, e.target.getBoundingClientRect())
-            let currentTargetRect = e.target.getBoundingClientRect();
-            let x = e.clientX - currentTargetRect.left
-            let y = e.clientY - currentTargetRect.top
-            x = x / this.state.width
-            y = y / this.state.height
-            this.setState({lastX: x, lastY: y})
-            this.setState({mouseDown: true})
-            ipcRenderer.send('click', {type: 14, x: x, y: y})
-        }
-        const handleMUp = (e) => {
-            console.log("touched end", e)
-            let currentTargetRect = e.target.getBoundingClientRect();
-            let x = e.clientX - currentTargetRect.left
-            let y = e.clientY - currentTargetRect.top
-            x = x / this.state.width
-            y = y / this.state.height
-            this.setState({mouseDown: false})
-            ipcRenderer.send('click', {type: 16, x: x, y: y})
+            console.log("leaving")
+    	    this.props.leave()
         }
 
-
-        const handleMMove = (e) => {
-            console.log("touched drag", e)
-            let currentTargetRect = e.target.getBoundingClientRect();
-            let x = e.clientX - currentTargetRect.left
-            let y = e.clientY - currentTargetRect.top
-            x = x / this.state.width
-            y = y / this.state.height
-            ipcRenderer.send('click', {type: 15, x: x, y: y})
+        const touchEvent = (type, x, y) => {
+            ipcRenderer.send('click', {type: type, x: x, y: y})
         }
 
-        const handleDown = (e) => {
-            console.log("touched", e, e.target.getBoundingClientRect())
-            let currentTargetRect = e.target.getBoundingClientRect();
-            let x = e.touches[0].clientX - currentTargetRect.left
-            let y = e.touches[0].clientY - currentTargetRect.top
-            x = x / this.state.width
-            y = y / this.state.height
-            this.setState({lastX: x, lastY: y})
-            this.setState({mouseDown: true})
-            ipcRenderer.send('click', {type: 14, x: x, y: y})
-	    e.preventDefault()
-        }
-        const handleUp = (e) => {
-            console.log("touched end", e)
-            let currentTargetRect = e.target.getBoundingClientRect();
-            let x = this.state.lastX
-            let y = this.state.lastY
-            this.setState({mouseDown: false})
-            ipcRenderer.send('click', {type: 16, x: x, y: y})
-	    e.preventDefault()
+        const changeSetting = (k, v) => {
+            console.log("setting: " + k + " change to: " + v)
         }
 
-
-        const handleMove = (e) => {
-            console.log("touched drag", e)
-            let currentTargetRect = e.target.getBoundingClientRect();
-            let x = e.touches[0].clientX - currentTargetRect.left
-            let y = e.touches[0].clientY - currentTargetRect.top
-            x = x / this.state.width
-            y = y / this.state.height
-            ipcRenderer.send('click', {type: 15, x: x, y: y})
-	    e.preventDefault()
+        const reload = () => {
+            console.log("reload request")
         }
 
 
         return (
             <div style={{height: '100%', flexGrow: 1}}>
-                <div ref={(divElement) => {
-                    this.divElement = divElement
-                }}
-                     onTouchStart={handleDown}
-                     onTouchEnd={handleUp}
-                     onTouchMove={(e) => {
-                         if (this.state.mouseDown) {
-                             handleMove(e)
-                         }
-                     }}
-                     onMouseDown={handleMDown}
-                     onMouseUp={handleMUp}
-                     onMouseMove={(e) => {
-                         if (this.state.mouseDown) {
-                             handleMMove(e)
-                         }
-                     }}
-                     style={{height: '100%', width: '100%', padding: 0, margin: 0, display: 'flex'}}>
+                {this.state.connected ?
+                <Carplay
+                    settings={this.state.settings}
+                    status={this.state.status}
+                    touchEvent={touchEvent}
+                    changeSetting={changeSetting}
+                    reload={reload}
+                    ws={this.socket}
+                    type={'socket.io'}
+                /> : <div>loading</div>}
                     {this.state.status ?
-                        <JsmpegPlayer
-                            wrapperClassName={"video-wrapper"}
-                            videoUrl={"ws://localhost:8082/supersecret"}
-                            options={{
-                                autoplay: true
-                            }}
-                        ></JsmpegPlayer> : <div onClick={leave} style={{marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', flexGrow: '1'}}>CONNECT IPHONE TO BEGIN CARPLAY</div>}
-                </div>
+                        <div></div> : <div onClick={leave} style={{marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', flexGrow: '1'}}>CONNECT IPHONE TO BEGIN CARPLAY</div>}
             </div>
         );
     }

@@ -1,11 +1,12 @@
 const EventEmitter = require('events')
 
 class Utils extends EventEmitter {
-    constructor(brightnessValues, getValues, dayGpio, nightGpio, exec, win){ //, exec, win, test
+    //constructor(brightnessValues, getValues, dayGpio, nightGpio, exec, win){ //, exec, win, test
+    constructor(brightnessValues, getValues, exec, win){ //, exec, win, test
         super()
         this.brightnessValues = getValues;
-        this.dayGpio = dayGpio;
-        this.nightGpio = nightGpio;
+        //this.dayGpio = dayGpio;
+        //this.nightGpio = nightGpio;
         this.exec = exec;
         this.win = win;
         // this.dayGpio = dayGpio;
