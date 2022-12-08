@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector} from "react-redux";
-import {Grid, Box} from "@material-ui/core";
+import {Grid, Box} from "@mui/material";
 import checkPage from "../../utils";
 import DataBox from "../common/DataBox";
 import DataBoxSingleLine from "../common/DataBoxSingleLine";

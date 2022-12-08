@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector} from "react-redux";
-import {Switch, FormGroup, FormControlLabel, Box, Container, Divider} from '@material-ui/core';
+import {Switch, FormGroup, FormControlLabel, Box, Container, Divider} from '@mui/material';
 import checkPage from "../../utils";
 import {sendMsAction} from "../../actions";
 
@@ -20,6 +20,8 @@ function Settings() {
     };
 
     const renderSwitch = (item) => {
+
+
         return(
             <React.Fragment>
                 <FormControlLabel

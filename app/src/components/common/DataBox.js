@@ -1,10 +1,11 @@
 import React from 'react'
-import {Box, Typography, LinearProgress, withStyles} from "@material-ui/core";
+import { styled } from '@mui/material/styles';
+import {Box, Typography, LinearProgress} from "@mui/material";
 
 const DataBox = ({title, value, units, min, max, limit}) => {
     const normalise = value => (value - min) * 100 / (max - min);
 
-    const BorderLinearProgress = withStyles((theme) => ({
+    const BorderLinearProgress = styled(LinearProgress)(( {theme} ) => ({
         root: {
             height: 10,
             borderRadius: 5,
@@ -12,7 +13,7 @@ const DataBox = ({title, value, units, min, max, limit}) => {
             marginRight: '10%'
         },
         colorPrimary: {
-            backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 300 : 700],
+            // backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 300 : 700],
         },
         colorSecondary: {
             color: '#FFFFFF'
@@ -22,7 +23,7 @@ const DataBox = ({title, value, units, min, max, limit}) => {
             backgroundColor: value < limit ? '#1a90ff' : '#FF0000',
             color: 'FF0000'
         },
-    }))(LinearProgress);
+    }));
 
     return (
         <div>

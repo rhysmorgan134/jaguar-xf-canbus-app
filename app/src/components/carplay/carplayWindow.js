@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import JMuxer from 'jmuxer';
 import io from 'socket.io-client'
 import Carplay from 'react-js-carplay'
+import Container from "@mui/material/Container"
 
 const {ipcRenderer} = window;
 
@@ -83,8 +84,7 @@ class CarplayWindow extends Component {
 
 
         return (
-            <div style={{height: '100%', flexGrow: 1}}>
-                {this.state.connected ?
+            <Container maxWidth={false} disableGutters sx={{height: '100%'}}>
                 <Carplay
                     settings={this.state.settings}
                     status={this.state.status}
@@ -93,10 +93,8 @@ class CarplayWindow extends Component {
                     reload={reload}
                     ws={this.socket}
                     type={'socket.io'}
-                /> : <div>loading</div>}
-                    {this.state.status ?
-                        <div></div> : <div onClick={leave} style={{marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', flexGrow: '1'}}>CONNECT IPHONE TO BEGIN CARPLAY</div>}
-            </div>
+                />
+            </Container>
         );
     }
 }
