@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Typography, LinearProgress, withStyles} from "@material-ui/core";
+import {Box, Typography, LinearProgress, withStyles} from "@mui/material";
 
 const DataBoxSingleLine = ({data}) => {
 

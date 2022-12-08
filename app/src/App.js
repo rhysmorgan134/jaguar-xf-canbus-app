@@ -6,79 +6,38 @@ import Climate from "./components/climate/climate";
 import VehicleInfo from "./components/vehicleInfo/VehicleInfo";
 import './App.css';
 import Nav from "./components/nav/Nav";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {createMuiTheme, CssBaseline, ThemeProvider} from "@material-ui/core"
-import {makeStyles, responsiveFontSizes} from "@material-ui/core/styles";
-import Box from '@material-ui/core/Box';
+import Container from '@mui/material/Container';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import {createMuiTheme, CssBaseline} from "@mui/material"
+import Box from '@mui/material/Box';
+import Toolbar from "@mui/material/Toolbar"
 import {socketConnectT, disconnect} from "./actions";
 import {useComponentWillMount} from "./helpers/componetWillMountHelper";
 import Carplay from "./components/carplay/carplay";
+import SwipeableEdgeDrawer from "./components/nav/swipeableNav";
 
 //const electron = window.require("electron");
 
 
-
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column'
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
     },
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexGrow: 1
+});
+
+const lightTheme = createTheme({
+    palette: {
+        mode: 'light',
     },
-    nav: {
-        marginTop: 'auto'
-    }
-}));
+});
+
+
 
 function App({socketConnectT, appDetails}) {
 
-    const classes = useStyles();
     const prefersDarkMode =  appDetails.dark//useMediaQuery('(prefers-color-scheme: dark)')
     console.log(appDetails)
-
-
-    let theme = React.useMemo(
-        () =>
-            createMuiTheme({
-                palette: {
-                    type: prefersDarkMode ? 'dark' : 'light',
-                    background : {
-                        default: prefersDarkMode ? '#121212' : '#eeeeee',
-                        paper: prefersDarkMode ? '#2e2e2e' : '#fafafa'
-                    },
-                    secondary: {
-                        main: '#3dedf4', dark: 'ff00ee'
-                    },
-                    MuiIcon: {
-                        root: {
-                            fontSize: '100px',
-                        },
-                    },
-                },
-                overrides: {
-                    MuiCssBaseline: {
-                        '@global': {
-                            '*': {
-                                'scrollbar-width': 'thin',
-                            },
-                            '*::-webkit-scrollbar': {
-                                width: '4px',
-                                height: '4px',
-                            }
-                        }
-                    }
-                }
-            }),
-                [prefersDarkMode]
-    )
-
-    theme = responsiveFontSizes(theme);
 
     const connectSocket = () => {
         socketConnectT("localhost:3000")
@@ -95,11 +54,11 @@ function App({socketConnectT, appDetails}) {
 
 
     return (
-        <ThemeProvider theme={theme} >
+        <ThemeProvider theme={lightTheme}>
             <CssBaseline />
-            <Box className={classes.root} >
+            <Container maxWidth={false} disableGutters sx={{height: '100%', maxHeight: '100%'}}>
                 <HashRouter>
-                    <Box style={{height: '100vh', overflow: 'hidden'}} className={`${classes.content}`}>
+                    <Container maxWidth={false} disableGutters sx={{height: '100%'}}>
                         <Switch>
                             <Route exact path="/" component={Carplay}/>
                             <Route exact path='/carplay' component={Carplay} />
@@ -107,10 +66,11 @@ function App({socketConnectT, appDetails}) {
                             <Route exact path="/vehicle" component={VehicleInfo}/>
                             <Route exact path="/settings" component={Settings}/>
                         </Switch>
-                    </Box>
-                    {appDetails.currentPage==='carplay' ? <div></div> : <Nav />}
+                    </Container>
+                    {appDetails.currentPage==='carplay' ? <SwipeableEdgeDrawer /> : <Nav />}
+
                 </HashRouter>
-            </Box>
+            </Container>
         </ThemeProvider>
     )
 }

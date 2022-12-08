@@ -11,40 +11,41 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "concurrently": "^5.3.0",
+    "@use-gesture/react": "^10.2.22",
+    "buffer": "^6.0.3",
     "electron-is-dev": "^1.2.0",
     "express": "^4.17.1",
     "jmuxer": "^2.0.3",
-    "node-abi": "^3.8.0",
-    "node-carplay": "^2.0.8",
+    "node-carplay": "^2.0.10",
     "onoff": "^5.0.0",
     "pi-temperature": "^2.1.0",
+    "process": "^0.11.10",
     "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
     "react-dom": "^18.2.0",
-    "react-player": "^2.10.0",
+    "react-js-carplay": "^2.1.3",
     "react-redux": "^7.2.2",
-    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.1",
+    "react-spring": "^9.5.5",
     "redux": "^4.1.2",
     "redux-thunk": "^2.3.0",
     "serialport": "^8.0.7",
     "socket.io": "^3.0.5",
     "socket.io-client": "^3.0.5",
     "socketcan": "^2.5.0",
-    "typeface-roboto": "^1.1.13",
-    "usb": "^1.7.1",
-    "web-vitals": "^0.2.4",
-    "yarn": "^1.22.10"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "export BROWSER=none && PORT=3006 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "export BROWSER=none && PORT=3006 react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "start-electron": "export ELECTRON_START_URL=http://localhost:3006 && electron . --no-sandbox",
     "build-electron": "mkdir build/src && cp -r electron/. build/electron && cp -r src/shared/. build/src/shared",
@@ -72,13 +73,14 @@
     ]
   },
   "build": {
-    "publish": null
+    "publish": null,
+    "npmRebuild": false
   },
   "devDependencies": {
-    "electron": "^17.1.2",
+    "@electron/rebuild": "^3.2.10",
+    "electron": "^22.0.0",
     "electron-builder": "^23.0.6",
     "electron-devtools-installer": "^3.1.1",
-    "electron-rebuild": "^3.2.7",
     "nodemon": "^1.19.4"
   }
 }

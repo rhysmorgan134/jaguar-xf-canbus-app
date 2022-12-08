@@ -1,26 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector} from "react-redux";
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
 import { sendAction} from "../../actions";
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import Temperature from "./Temperature";
 import CarOverview from "./CarOverview";
 import checkPage from "../../utils";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-}));
 
 function Climate() {
     const pageTitle = 'climate'
@@ -36,7 +22,6 @@ function Climate() {
 
     const dispatch = useDispatch()
 
-    const classes = useStyles();
 
     useEffect(() => {
         checkPage(pageTitle)
@@ -52,10 +37,10 @@ function Climate() {
 
 
     return (
-        <div className={classes.root}>
+        <div >
             <Grid container justify={'flex-start'} alignItems={'center'} spacing={3} direction={'row'} height={300} >
                 <Grid item xs={4}>
-                    <Temperature value={driversTemp} action={action} className={classes.paper} name={'driver'} />
+                    <Temperature value={driversTemp} action={action}  name={'driver'} />
                 </Grid>
                 <Grid item xs={4}>
                     <CarOverview
@@ -69,7 +54,7 @@ function Climate() {
                         />
                 </Grid>
                 <Grid item xs={4} >
-                    <Temperature value={passengerTemp} className={classes.paper} action={action} name={'pass'}/>
+                    <Temperature value={passengerTemp} action={action} name={'pass'}/>
                 </Grid>
             </Grid>
         </div>

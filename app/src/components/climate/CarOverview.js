@@ -1,41 +1,21 @@
 import React from 'react';
 import car from '../../images/car.png'
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import {Box} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import {SvgIcon, Typography} from "@material-ui/core";
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import {Box} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import {SvgIcon, Typography} from "@mui/material";
 import {ReactComponent as Rear} from '../../images/SVG/rearWindow.svg'
 import {ReactComponent as Front} from '../../images/SVG/frontDefrost.svg'
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import {Autorenew, PowerSettingsNew} from "@material-ui/icons";
-import Button from "@material-ui/core/Button";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {Autorenew, PowerSettingsNew} from "@mui/icons-material";
+import Button from "@mui/material/Button";
 
 
 
-const useStyles = makeStyles((theme) => ({
-    image: {
-        backgroundColor: 'transparent',
-        border: 'none',
-        boxShadow: 'none',
-        objectFit: 'cover',
-        height: '100%',
-        maxWidth: '100%'
-    },
-    imageContainer: {
-        height: 100
-    },
-    largeIcon: {
-        fontSize: 100
-    },
-    noWrap: {
-        flexWrap: 'nowrap'
-    }
-}));
 
 function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, action}) {
 
@@ -43,11 +23,10 @@ function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, 
 
     }
 
-    const classes = useStyles();
     return (
         <Grid container justify={'center'} alignItems={'center'} spacing={3} direction={'column'}>
 
-            <Grid item grow={1} xs={12} className={classes.imageContainer} >
+            <Grid item grow={1} xs={12}  >
                 <Grid container justify={'center'} direction={'row'} spacing={1}>
                     <Grid
                         item
@@ -71,7 +50,7 @@ function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, 
                         onTouchStart={() => action({actionName: 'frontHeater', actionFunction: 'pressed'})}
                         onTouchEnd={() => action({actionName: 'frontHeater', actionFunction: 'rel'})}
                     >
-                        <Button size={'large'}  fullWidth={true}>
+                        <Button size={'large'}  fullWidth={true} >
                             <SvgIcon  fontSize={'large'}>
                                 <Front/>
                             </SvgIcon>
@@ -107,7 +86,7 @@ function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, 
                     </Grid>
 
                     <Grid item xs={6}>
-                        <Card className={classes.image}>
+                        <Card elevation={0}>
                             <CardActionArea>
                                 <CardMedia
                                     component="img"
@@ -145,7 +124,7 @@ function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, 
                 </Grid>
             </Grid>
             <Grid item xs={10}>
-                <Typography align={'center'} variant="caption" component="p" gutterBottom>Interior Temp<br />18°C</Typography>
+                <Typography align={'center'} variant="caption" component="p" gutterBottom>Interior Temp<br />{interiorTemp}°C</Typography>
             </Grid>
         </Grid>
     )

@@ -5,3 +5,15 @@
 @media (prefers-color-scheme: light) {
     body { background:  #ddd; color: black; }
 }
+
+.root {
+    min-height: 100%;
+}
+
+root {
+    min-height: 100%;
+}
+
+body {
+    overflow: hidden;
+}

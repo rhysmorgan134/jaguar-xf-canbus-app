@@ -1,9 +1,9 @@
 import React from 'react';
-import { BottomNavigationAction} from "@material-ui/core";
+import { BottomNavigationAction} from "@mui/material";
 import { Link } from 'react-router-dom';
-import AcUnitIcon from '@material-ui/icons/AcUnit'
-import DriveEtaIcon from '@material-ui/icons/DriveEta'
-import SettingsIcon from '@material-ui/icons/Settings'
+import AcUnitIcon from '@mui/icons-material/AcUnit'
+import DriveEtaIcon from '@mui/icons-material/DriveEta'
+import SettingsIcon from '@mui/icons-material/Settings'
 import carplay from './carplay.png'
 
 function NavButton ({name}) {
