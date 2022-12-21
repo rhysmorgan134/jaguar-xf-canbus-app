@@ -17,16 +17,15 @@ import Button from "@mui/material/Button";
 
 
 
-function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, action}) {
+function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, action, exteriorTemp}) {
 
     const handleClick = (type) => {
 
     }
 
     return (
-        <Grid container justify={'center'} alignItems={'center'} spacing={3} direction={'column'}>
-
-            <Grid item grow={1} xs={12}  >
+        <Grid container justifyContent={'center'} alignItems={'center'} spacing={3} direction={'column'} sx={{height: '100%', maxHeight: '100%'}}>
+            <Grid item grow={1} xs={12} sx={{height: '100%', maxHeight: '100%'}} >
                 <Grid container justify={'center'} direction={'row'} spacing={1}>
                     <Grid
                         item
@@ -125,6 +124,7 @@ function CarOverview ({rearHeater,frontHeater,auto,defrost,interiorTemp,recirc, 
             </Grid>
             <Grid item xs={10}>
                 <Typography align={'center'} variant="caption" component="p" gutterBottom>Interior Temp<br />{interiorTemp}°C</Typography>
+                <Typography align={'center'} variant="caption" component="p" gutterBottom>Exterior Temp<br />{exteriorTemp}°C</Typography>
             </Grid>
         </Grid>
     )

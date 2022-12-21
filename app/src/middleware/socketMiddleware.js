@@ -5,6 +5,7 @@ import {
     SOCKET_ACTION,
     SOCKET_ENGINE,
     SOCKET_TRIP,
+    SOCKET_DIAG,
     CURRENT_PAGE, LEAVE_PAGE, ROOM_JOINED, SOCKET_CLIMATE, MS_ACTION, SOCKET_SETTINGS, GENERAL, DISCONNECT
 } from "../actions/types";
 import io from "socket.io-client";
@@ -74,6 +75,11 @@ const socketMiddleware = () => {
 
                 socket.on('climate', (data) => {
                     store.dispatch({type: SOCKET_CLIMATE, payload: data})
+                })
+
+                socket.on('diag', (data) => {
+                    console.log('diag', data)
+                    store.dispatch({type: SOCKET_DIAG, payload: data})
                 })
                 break;
             case CURRENT_PAGE:

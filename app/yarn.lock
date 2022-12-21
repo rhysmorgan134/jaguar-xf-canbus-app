@@ -1089,6 +1089,20 @@
   dependencies:
     "regenerator-runtime" "^0.13.11"
 
+"@babel/runtime@^7.2.0":
+  "integrity" "sha512-Q+8MqP7TiHMWzSfwiJwXCjyf4GYA4Dgw3emg/7xmwsdLJOZUp+nMqcOwOzzYheuM1rhDu8FSj2l0aoMygEuXuA=="
+  "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.20.6.tgz"
+  "version" "7.20.6"
+  dependencies:
+    "regenerator-runtime" "^0.13.11"
+
+"@babel/runtime@7.0.0":
+  "integrity" "sha512-7hGhzlcmg01CvH1EHdSPVXYX1aJ8KCEyz6I9xYIi/asDtzBPMyMhVibhM/K6g/5qnKBwjZtp10bNZIEFTRW1MA=="
+  "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.0.0.tgz"
+  "version" "7.0.0"
+  dependencies:
+    "regenerator-runtime" "^0.12.0"
+
 "@babel/template@^7.0.0", "@babel/template@^7.18.10", "@babel/template@^7.3.3":
   "integrity" "sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA=="
   "resolved" "https://registry.npmjs.org/@babel/template/-/template-7.18.10.tgz"
@@ -5841,6 +5855,11 @@
     "tslib" "^2.1.0"
     "unzip-crx-3" "^0.2.0"
 
+"electron-is-dev@^0.3.0":
+  "integrity" "sha512-jLttuuq8QK67n3mXmIe9pkrO7IH3LGIk12xJkhTmc852U2sCJaRAOpRGPSh+1Xnzck5v9escd9YXzuze9nGejg=="
+  "resolved" "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-0.3.0.tgz"
+  "version" "0.3.0"
+
 "electron-is-dev@^1.2.0":
   "integrity" "sha512-R1oD5gMBPS7PVU8gJwH6CtT0e6VSoD0+SzSnYpNm+dBkcijgA+K7VAMHDfnRq/lkKPZArpzplTW6jfiMYosdzw=="
   "resolved" "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-1.2.0.tgz"
@@ -5876,7 +5895,7 @@
   "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.284.tgz"
   "version" "1.4.284"
 
-"electron@^22.0.0":
+"electron@^22.0.0", "electron@>= 6.0.0":
   "integrity" "sha512-cgRc4wjyM+81A0E8UGv1HNJjL1HBI5cWNh/DUIjzYvoUuiEM0SS0hAH/zaFQ18xOz2ced6Yih8SybpOiOYJhdg=="
   "resolved" "https://registry.npmjs.org/electron/-/electron-22.0.0.tgz"
   "version" "22.0.0"
@@ -7067,6 +7086,13 @@
   "resolved" "https://registry.npmjs.org/github-from-package/-/github-from-package-0.0.0.tgz"
   "version" "0.0.0"
 
+"github-url-to-object@^4.0.4":
+  "integrity" "sha512-NaqbYHMUAlPcmWFdrAB7bcxrNIiiJWJe8s/2+iOc9vlcHlwHqSGrPk+Yi3nu6ebTwgsZEa7igz+NH2vEq3gYwQ=="
+  "resolved" "https://registry.npmjs.org/github-url-to-object/-/github-url-to-object-4.0.6.tgz"
+  "version" "4.0.6"
+  dependencies:
+    "is-url" "^1.1.0"
+
 "glob-parent@^3.1.0":
   "integrity" "sha512-E8Ak/2+dZY6fnzlR7+ueWvhsH1SjHr4jjss4YS/h4py44jY9MhK/VFdaZJAWDz6BbL21KeteKxFSFpq8OS5gVA=="
   "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-3.1.0.tgz"
@@ -8102,6 +8128,11 @@
   "resolved" "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz"
   "version" "0.1.0"
 
+"is-url@^1.1.0", "is-url@^1.2.4":
+  "integrity" "sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww=="
+  "resolved" "https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz"
+  "version" "1.2.4"
+
 "is-weakmap@^2.0.1":
   "integrity" "sha512-NSBR4kH5oVj1Uwvv970ruUkCV7O1mzgVFO4/rev2cLRda9Tm9HrL70ZPut4rOHgY0FNrUu9BCbXA2sdQ+x0chA=="
   "resolved" "https://registry.npmjs.org/is-weakmap/-/is-weakmap-2.0.1.tgz"
@@ -9021,6 +9052,11 @@
     "pako" "~1.0.2"
     "readable-stream" "~2.3.6"
     "setimmediate" "^1.0.5"
+
+"keycode@^2.1.7":
+  "integrity" "sha512-Rdgz9Hl9Iv4QKi8b0OlCRQEzp4AgVxyCtz5S/+VIHezDmrDhkp2N2TqBWOLz0/gbeREXOOiI9/4b8BY9uw2vFg=="
+  "resolved" "https://registry.npmjs.org/keycode/-/keycode-2.2.1.tgz"
+  "version" "2.2.1"
 
 "keyv@^4.0.0":
   "integrity" "sha512-5MHbFaKn8cNSmVW7BYnijeAVlE4cYA/SVkifVgrh7yotnfhKmjuXpDKjrABLnT0SfHWV21P8ow07OGfRrNDg8g=="
@@ -11437,7 +11473,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@^15.5.4", "prop-types@^15.6.0", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -11617,6 +11653,15 @@
   "integrity" "sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg=="
   "resolved" "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.11.tgz"
   "version" "6.0.11"
+
+"react-event-listener@^0.6.0":
+  "integrity" "sha512-+hCNqfy7o9wvO6UgjqFmBzARJS7qrNoda0VqzvOuioEpoEXKutiKuv92dSz6kP7rYLmyHPyYNLesi5t/aH1gfw=="
+  "resolved" "https://registry.npmjs.org/react-event-listener/-/react-event-listener-0.6.6.tgz"
+  "version" "0.6.6"
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "prop-types" "^15.6.0"
+    "warning" "^4.0.1"
 
 "react-is@^16.12.0 || ^17.0.0 || ^18.0.0", "react-is@^18.0.0", "react-is@^18.2.0":
   "integrity" "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w=="
@@ -11886,6 +11931,37 @@
     "@react-spring/web" "~9.5.5"
     "@react-spring/zdog" "~9.5.5"
 
+"react-swipeable-views-core-react-18-fix@^0.14.0":
+  "integrity" "sha512-bjFcup9b46doTcqgO7JAPBrWW1iJ3gklg5zOjJ067jxn4kzOO287LFM0nzFA1l4Gu0XM73vzCKmYzMl7+6Ft6Q=="
+  "resolved" "https://registry.npmjs.org/react-swipeable-views-core-react-18-fix/-/react-swipeable-views-core-react-18-fix-0.14.0.tgz"
+  "version" "0.14.0"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    "warning" "^4.0.1"
+
+"react-swipeable-views-react-18-fix@^0.14.1":
+  "integrity" "sha512-mg5j/Lcs6eGV57NdrKReWK8Xo3Rbb+2PuS+7UizB5nQ+ZWNrI1xyKSTDEf6PNnozA3RwEj2QtNl3VMl2Eu7/hA=="
+  "resolved" "https://registry.npmjs.org/react-swipeable-views-react-18-fix/-/react-swipeable-views-react-18-fix-0.14.1.tgz"
+  "version" "0.14.1"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    "prop-types" "^15.5.4"
+    "react-swipeable-views-core-react-18-fix" "^0.14.0"
+    "react-swipeable-views-utils-react-18-fix" "^0.14.1"
+    "warning" "^4.0.1"
+
+"react-swipeable-views-utils-react-18-fix@^0.14.1":
+  "integrity" "sha512-9Wket8Xf13w/eSW5O+9eeyBBOorErHj0XaPrI4eQDp10ngRWPddD/0xcSxWfs8J/+1gbPacU74Sfts8hFDC2jA=="
+  "resolved" "https://registry.npmjs.org/react-swipeable-views-utils-react-18-fix/-/react-swipeable-views-utils-react-18-fix-0.14.1.tgz"
+  "version" "0.14.1"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    "keycode" "^2.1.7"
+    "prop-types" "^15.6.0"
+    "react-event-listener" "^0.6.0"
+    "react-swipeable-views-core-react-18-fix" "^0.14.0"
+    "shallow-equal" "^1.2.1"
+
 "react-transition-group@^4.4.5":
   "integrity" "sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g=="
   "resolved" "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"
@@ -11915,7 +11991,7 @@
     "resize-observer-polyfill" "^1.5.1"
     "scheduler" "0.13.3"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18", "react@^16.0.0", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0  || >=17.0.0 || >=18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.3 || ^17 || ^18", "react@^17.0.0 || ^18.0.0", "react@^18.0.0", "react@^18.2.0", "react@>= 16", "react@>= 16.8.0", "react@>=15", "react@>=16.13", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=17.0", "react@>=18.0", "react@16.8.x", "react@18.1.0":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18", "react@^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.3.0", "react@^16.8.0  || >=17.0.0 || >=18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.3 || ^17 || ^18", "react@^17.0.0 || ^18.0.0", "react@^18.0.0", "react@^18.2.0", "react@>= 16", "react@>= 16.8.0", "react@>=15", "react@>=16.13", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=17.0", "react@>=18.0", "react@16.8.x", "react@18.1.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
@@ -12067,6 +12143,11 @@
   "integrity" "sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A=="
   "resolved" "https://registry.npmjs.org/regenerate/-/regenerate-1.4.2.tgz"
   "version" "1.4.2"
+
+"regenerator-runtime@^0.12.0":
+  "integrity" "sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg=="
+  "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz"
+  "version" "0.12.1"
 
 "regenerator-runtime@^0.13.11", "regenerator-runtime@^0.13.2", "regenerator-runtime@^0.13.9":
   "integrity" "sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg=="
@@ -12736,6 +12817,11 @@
   "version" "3.0.1"
   dependencies:
     "kind-of" "^6.0.2"
+
+"shallow-equal@^1.2.1":
+  "integrity" "sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA=="
+  "resolved" "https://registry.npmjs.org/shallow-equal/-/shallow-equal-1.2.1.tgz"
+  "version" "1.2.1"
 
 "shebang-command@^1.2.0":
   "integrity" "sha512-EV3L1+UQWGor21OmnvojK36mhg+TyIKDh3iFBKBohr5xeXIhNBcx8oWdgkTEEQ+BEFFYdLRuqMfd5L84N1V5Vg=="
@@ -13987,6 +14073,16 @@
     "escalade" "^3.1.1"
     "picocolors" "^1.0.0"
 
+"update-electron-app@^2.0.1":
+  "integrity" "sha512-e4xEner89UZZaBGYJbYlMdL1uUrC0VjOsTAL2N4opPjzFtn+j7mdsJJsnyXZzUVeLY+8tuCX4XEsUM98oBHmZg=="
+  "resolved" "https://registry.npmjs.org/update-electron-app/-/update-electron-app-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "electron-is-dev" "^0.3.0"
+    "github-url-to-object" "^4.0.4"
+    "is-url" "^1.2.4"
+    "ms" "^2.1.1"
+
 "update-notifier@^2.5.0":
   "integrity" "sha512-gwMdhgJHGuj/+wHJJs9e6PcCszpxR1b236igrOkUofGhqJuG+amlIKwApH1IW1WWl7ovZxsX49lMBWLxSdm5Dw=="
   "resolved" "https://registry.npmjs.org/update-notifier/-/update-notifier-2.5.0.tgz"
@@ -14129,7 +14225,7 @@
   dependencies:
     "makeerror" "1.0.12"
 
-"warning@^4.0.3":
+"warning@^4.0.1", "warning@^4.0.3":
   "integrity" "sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w=="
   "resolved" "https://registry.npmjs.org/warning/-/warning-4.0.3.tgz"
   "version" "4.0.3"

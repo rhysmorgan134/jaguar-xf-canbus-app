@@ -27,13 +27,13 @@ module.exports = function(window, dev, mp4Reader) {
     let count = 0
     const path = require('path')
     
-    // if(dev) {
-    //     var serialPort = new SerialPort('/dev/ttyAMA0')
-    // } else {
-    //     var serialPort = new SerialPort('/dev/SWC', {
-    //         baudRate: 9600
-    //     })
-    // }
+    if(dev) {
+        var serialPort = new SerialPort('/dev/ttyAMA0')
+    } else {
+        var serialPort = new SerialPort('/dev/SWC', {
+            baudRate: 9600
+        })
+    }
    if(dev) {
 	app.use(express.static(path.join(__dirname, '../build/')))
    } else {
@@ -67,7 +67,7 @@ module.exports = function(window, dev, mp4Reader) {
     //window.blur();
     //window.focus();
 
-    //const parser = serialPort.pipe(new Readline({delimiter: '\r\n'}))
+    const parser = serialPort.pipe(new Readline({delimiter: '\r\n'}))
 
 //default array to use as the buffer to send can messages when no new changes
     var def = [203, 0, 0, 0, 0, 0, 127, 127];
@@ -107,31 +107,31 @@ try {
     });
 
 
-//     parser.on('data', function (data) {
-//         key = parseInt(data.toString());
-//         //console.log(typeof (key));
-//         if (key === 43) {
-//             console.log(43)
-//             var canMsg = {}
-//             canMsg.id = 712
-//             var tempArr = def
-//             tempArr[7] = 128
-//             canMsg.data = new Buffer(tempArr)
-//             channel.send(canMsg)
-//         } else if (key === 45) {
-//             console.log(45)
-//             var canMsg = {}
-//             canMsg.id = 712
-//             var tempArr = def
-//             tempArr[7] = 126
-//             canMsg.data = new Buffer(tempArr)
-//             console.log("sent")
-//             channel.send(canMsg)
-//         } else {
-//             console.log("none")
-// //	console.log(key)
-//         }
-//     });
+    parser.on('data', function (data) {
+        key = parseInt(data.toString());
+        //console.log(typeof (key));
+        if (key === 43) {
+            console.log(43)
+            var canMsg = {}
+            canMsg.id = 712
+            var tempArr = [...def]
+            tempArr[7] = 128
+            canMsg.data = new Buffer(tempArr)
+            channel.send(canMsg)
+        } else if (key === 45) {
+            console.log(45)
+            var canMsg = {}
+            canMsg.id = 712
+            var tempArr = [...def]
+            tempArr[7] = 126
+            canMsg.data = new Buffer(tempArr)
+            console.log("sent")
+            channel.send(canMsg)
+        } else {
+            console.log("none")
+//	console.log(key)
+        }
+    });
 //
 //     power.watch((err, value) => {
 //         exec("sudo shutdown -h now")
@@ -235,7 +235,7 @@ try {
             if (data.func === "pressed") {
 
                 //create a copy of the defulat array
-                var newD = def
+                var newD = [...def]
                 if (data.type.includes("vol") || data.type.includes("fan")) {
                     newD[byte] = value
                 } else {
@@ -247,9 +247,11 @@ try {
                 console.log("pressed ", newD)
             } else if (data.func === "rel") {
                 //if button has been released clear the bit
-                var newD = def
-                if ("off" in outIds[data.type]) {
+                var newD = [...def]
+                if (data.type.includes("vol") || data.type.includes("fan")) {
+                    console.log("releasing volume")
                     newD[byte] = outIds[data.type].off
+                    msgOut.data = newD
                 } else {
                     newD[byte] &= ~value
                     msgOut.data = newD
@@ -260,6 +262,7 @@ try {
 
             var canMsg = {}
             canMsg.id = 712
+            console.log("sending", canMsg, msgOut.data)
             canMsg.data = new Buffer(msgOut.data)
             channel.send(canMsg)
 
@@ -281,13 +284,15 @@ try {
         //io.emit('status', indicators);
         //console.log('emitting')
         io.to('vehicleInfo').emit('trip', Object.assign(hsInfo.dataObj, msInfo.dataObj.tripInfo));
+        io.to('vehicleInfo').emit('diag', msInfo.dataObj.diag);
 
         // io.emit('settings', settings);
         io.to('climate').emit('climate', Object.assign(msInfo.dataObj.climate, tempCar));
         io.to('climate').emit('climate', indicators)
 
         io.to('settings').emit('settings', msInfo.dataObj.settings);
-        //io.to('general').emit('general', msInfo.dataObj.mode)
+
+        io.to('general').emit('general', msInfo.dataObj.mode)
 
         //turn the canbus array to buffer object
         out.data = new Buffer(msgOut.data)
@@ -301,24 +306,8 @@ try {
     }, 100)
 
     mp4Reader.on('data', (chunk) => {
-        //console.log("emitting carplay chunk")
-        // buffers.push(chunk)
-        // if(buffers.length >= 10) {
-        //    io.emit('carplay', Buffer.concat(buffers))
-        //    buffers = []
-        // }
-	io.emit('carplay', chunk)
+	    io.emit('carplay', chunk)
     })
-
-    // setInterval(() => {
-    //     temp.measure(function (err, temp) {
-    //         if (err) console.error("temperature read error", err);
-    //         else {
-    //             info['cpu'] = temp
-    //         }
-    //     });
-    //     io.emit('info', info);
-    // }, 500)
 
 }
 

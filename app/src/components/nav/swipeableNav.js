@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Nav from "./Nav";
 
-const drawerBleeding = 56;
+const drawerBleeding = 35;
 
 const Root = styled('div')(({ theme }) => ({
     height: '100%',

@@ -5,8 +5,8 @@ class Id40 {
                 rawLightResistance: 0,
                 adjustedLight: 0
             },
-            gear: {
-
+            mode: {
+                gear: "park"
             }
         };
         this.prevGear = 0;
@@ -24,35 +24,36 @@ class Id40 {
             this.currentBrightness = this.data.brightness.adjustedLight;
         }
         let gear = arr[4];
+
         if(!(this.prevGear === gear)) {
             if(this.prevGear === 1) {
                 // this.dash.page('Android Auto');
             }
             if (gear === 0) {
                 console.log("in Park");
-                this.data.gear = "park";
+                this.data.mode.gear = "park";
                 this.prevGear = gear;
             } else {
                 switch (gear) {
                     case gear & 1:
                         console.log("in reverse");
-                        this.data.gear = "reverse";
+                        this.data.mode.gear = "reverse";
                         this.prevGear = gear;
                         // this.dash.page('Camera');
                         break;
                     case gear & 2:
                         console.log("in neutral");
-                        this.data.gear = "neutral";
+                        this.data.mode.gear = "neutral";
                         this.prevGear = gear;
                         break;
                     case gear & 4:
                         console.log("in drive");
-                        this.data.gear = "drive";
+                        this.data.mode.gear = "drive";
                         this.prevGear = gear;
                         break;
                     case gear & 8:
                         console.log("in sport");
-                        this.data.gear = "sport";
+                        this.data.mode.gear = "sport";
                         this.prevGear = gear;
                         break;
                 }

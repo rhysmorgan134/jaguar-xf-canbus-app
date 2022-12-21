@@ -7,6 +7,7 @@
     "name": "Rhys Morgan",
     "email": "rhys1802@hotmail.co.uk"
   },
+  "repository": "github:rhysmorgan134/jaguar-xf-canbus-app",
   "homepage": "./",
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -34,12 +35,14 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
     "react-spring": "^9.5.5",
+    "react-swipeable-views-react-18-fix": "^0.14.1",
     "redux": "^4.1.2",
     "redux-thunk": "^2.3.0",
     "serialport": "^8.0.7",
     "socket.io": "^3.0.5",
     "socket.io-client": "^3.0.5",
     "socketcan": "^2.5.0",
+    "update-electron-app": "^2.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
