@@ -7,6 +7,9 @@ class Id904 {
                     suf: 'MPH',
                     val: 0
                 }
+            },
+            diag: {
+                coolant: 0
             }
         }
     }
@@ -18,6 +21,7 @@ class Id904 {
         let start = length - 9;
         this.data.tripInfo.tripMpg.val = parseInt(val.slice(start, length), 2) / 10.0 + 10;
         //tripInfo.tripMpg.val = mpg
+        this.data.diag.coolant = message.readUInt8(1) - 60
         return this.data;
     };
 }

@@ -8,6 +8,7 @@ function Settings() {
 
     const pageTitle = 'settings'
     const details = useSelector(state => state.settings.bools);
+    const diag = useSelector(state => state.settings.diag);
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -51,6 +52,7 @@ function Settings() {
             <FormGroup column>
                 {details ? Object.entries(details).map(item => renderSwitch(item)) : <div>Loading</div>}
             </FormGroup>
+            {JSON.stringify(diag)}
         </Container>
 
     );

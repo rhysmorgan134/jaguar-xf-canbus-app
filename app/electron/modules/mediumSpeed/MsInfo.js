@@ -4,6 +4,11 @@ const Id680 = require('./680');
 const Id40 = require('./40');
 const Id72 = require('./72');
 const Id360 = require('./360');
+const Id840 = require('./840');
+const Id424 = require('./424')
+const Id472 = require('./472')
+const Id264 = require('./264')
+const Id392 = require('./392')
 const Utils = require('./Utils');
 const EventEmitter = require('events')
 
@@ -14,7 +19,7 @@ class MsInfo extends EventEmitter{
         this.bus = 'ms';
         this.canIds = canIds;
         this.outIds = outIds;
-        this.IDs = [968, 904, 680, 40, 360, 72];
+        this.IDs = [968, 904, 680, 40, 360, 72, 840, 424, 472, 264, 392];
         this.data = {
             tripInfo: {
                 tripDistance: {
@@ -42,7 +47,8 @@ class MsInfo extends EventEmitter{
 
             },
             mode: {
-                dark: false
+                dark: false,
+                ger: 'park'
             },
             brightness: {
                 rawLightResistence: 0,
@@ -52,7 +58,16 @@ class MsInfo extends EventEmitter{
 
             },
             climate: {
-                interiorTemp: 0
+                interiorTemp: 0,
+                exteriorTemp: 0
+            },
+            diag: {
+                alternatorCurrent: 0,
+                batteryVoltage: 0.0,
+                chargingCurrent: 0,
+                speed: 0,
+                coolant: 0,
+                revs: 0
             }
         };
         //this.utils = new Utils(this.data.brightness, this.brightnessValues, dayGpio, nightGpio, exec, win);
@@ -69,7 +84,12 @@ class MsInfo extends EventEmitter{
             Id680: new Id680(this.canIds, this.outIds),
             Id40: new Id40(this.utils.brightnessValues, exec),
             Id360: new Id360(),
-            Id72: new Id72()
+            Id72: new Id72(),
+            Id840: new Id840(),
+            Id424: new Id424(),
+            Id472: new Id472(),
+            Id264: new Id264(),
+            Id392: new Id392()
         }
 
     }

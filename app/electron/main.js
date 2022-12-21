@@ -5,6 +5,7 @@ const {channels} = require('../src/shared/constants');
 const { Readable } = require('stream');
 const isDev = require('electron-is-dev');
 const WebSocket = require('ws');
+require('update-electron-app')()
 const mp4Reader = new Readable({
     read(size) {
     }

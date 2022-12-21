@@ -19,6 +19,7 @@ function Climate() {
     const auto = details.auto;
     const frontHeater = details.frontHeater;
     const recirc = details.recirc;
+    const exteriorTemp = details.exteriorTemp;
 
     const dispatch = useDispatch()
 
@@ -37,8 +38,7 @@ function Climate() {
 
 
     return (
-        <div >
-            <Grid container justify={'flex-start'} alignItems={'center'} spacing={3} direction={'row'} height={300} >
+            <Grid container justifyItems={'center'} alignItems={'center'} spacing={3} direction={'row'} sx={{height: '100%', maxHeight: '100%'}}>
                 <Grid item xs={4}>
                     <Temperature value={driversTemp} action={action}  name={'driver'} />
                 </Grid>
@@ -51,13 +51,13 @@ function Climate() {
                         defrost={defrost}
                         interiorTemp={interiorTemp}
                         recirc={recirc}
+                        exteriorTemp={exteriorTemp}
                         />
                 </Grid>
                 <Grid item xs={4} >
                     <Temperature value={passengerTemp} action={action} name={'pass'}/>
                 </Grid>
             </Grid>
-        </div>
     );
 }
 

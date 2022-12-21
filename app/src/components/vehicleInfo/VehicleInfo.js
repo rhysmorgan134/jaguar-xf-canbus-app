@@ -4,11 +4,15 @@ import {Grid, Box} from "@mui/material";
 import checkPage from "../../utils";
 import DataBox from "../common/DataBox";
 import DataBoxSingleLine from "../common/DataBoxSingleLine";
+import SwipeableViews from 'react-swipeable-views-react-18-fix';
+import EngineInfo from "./EngineInfo";
+import BatteryInfo from "./BatteryInfo";
 
 function VehicleInfo() {
 
     const pageTitle = 'vehicleInfo';
     const details = useSelector(state => state.engineDetails.trip);
+
 
 
     useEffect(() => {
@@ -18,21 +22,11 @@ function VehicleInfo() {
 
         return (
             <Box display={'flex'} size={100} justifyContent={'space-between'} flexDirection={'column'} flexGrow={1}>
-                <Grid container justify={'center'} alignItems={'center'} alignContent={'center'} spacing={3} >
-                    <Grid item xs={6}>
-                        <DataBox value={details.speed } title={'Speed'} units={'MPH'} min={0} max={140} limit={80}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <DataBox value={details.revs} title={'Engine Speed'} units={'RPM'} min={0} max={5000} limit={800}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <DataBox value={details.coolant} title={'Coolant Temp'} units={'°C'} min={0} max={120} limit={100}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <DataBox value={details.oil} title={'Oil Temp'} units={'°C'} min={'0'} max={120} limit={100}/>
-                    </Grid>
-                </Grid>
-                <Grid container justify={'space-between'}>
+                <SwipeableViews>
+                    <EngineInfo details={details}/>
+                    <BatteryInfo/>
+                </SwipeableViews>
+                <Grid container justifyContent={'space-around'}>
                     <DataBoxSingleLine data={details.tripMpg} />
                     <DataBoxSingleLine data={details.tripAvg} />
                     <DataBoxSingleLine data={details.tripDistance}/>

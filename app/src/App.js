@@ -8,14 +8,14 @@ import './App.css';
 import Nav from "./components/nav/Nav";
 import Container from '@mui/material/Container';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import useMediaQuery from "@mui/material/useMediaQuery";
 import {createMuiTheme, CssBaseline} from "@mui/material"
-import Box from '@mui/material/Box';
-import Toolbar from "@mui/material/Toolbar"
 import {socketConnectT, disconnect} from "./actions";
 import {useComponentWillMount} from "./helpers/componetWillMountHelper";
 import Carplay from "./components/carplay/carplay";
 import SwipeableEdgeDrawer from "./components/nav/swipeableNav";
+import Camera from "./components/Camera/Camera";
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 //const electron = window.require("electron");
 
@@ -32,16 +32,24 @@ const lightTheme = createTheme({
     },
 });
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    boxShadow: 24,
+};
+
 
 
 function App({socketConnectT, appDetails}) {
 
     const prefersDarkMode =  appDetails.dark//useMediaQuery('(prefers-color-scheme: dark)')
-    console.log(appDetails)
 
     const connectSocket = () => {
         socketConnectT("localhost:3000")
     }
+
 
     useComponentWillMount(connectSocket)
 
@@ -71,6 +79,13 @@ function App({socketConnectT, appDetails}) {
 
                 </HashRouter>
             </Container>
+            <Modal
+                open={appDetails.general.gear === "reverse"}
+            >
+                <Box sx={style}>
+                    <Camera />
+                </Box>
+            </Modal>
         </ThemeProvider>
     )
 }
