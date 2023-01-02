@@ -89,7 +89,6 @@ function App({socketConnectT, appDetails}) {
                     <div>
                         <Pam/>
                     </div>
-
                 </Box>
             </Modal>
         </ThemeProvider>

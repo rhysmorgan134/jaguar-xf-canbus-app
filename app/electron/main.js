@@ -1,5 +1,6 @@
 const path = require('path');
 const url = require('url');
+
 const {app, BrowserWindow, ipcMain, ipcRenderer, globalShortcut, dialog} = require('electron');
 const {channels} = require('../src/shared/constants');
 const dns = require('dns');
@@ -13,6 +14,7 @@ const cp = require('child_process');
 
 require('update-electron-app')()
 
+
 const mp4Reader = new Readable({
     read(size) {
     }
@@ -21,7 +23,6 @@ const mp4Reader = new Readable({
 const Carplay = require('node-carplay')
 const bindings = ['n', 'v', 'b', 'm', ]
 const keys = require('./bindings.json')
-
 
 let wss;
 wss = new WebSocket.Server({ port: 3002 });
@@ -42,11 +43,13 @@ wss.on('connection', function connection(ws) {
 
 
 let mainWindow;
+
 let internetConnection = false;
 let updateChecked = false
 let version =  app.getVersion()
 console.log(app.getAppPath())
 console.log(version)
+
 function createWindow() {
     const startUrl = process.env.ELECTRON_START_URL || url.format({
         pathname: path.join(__dirname, '../index.html'),

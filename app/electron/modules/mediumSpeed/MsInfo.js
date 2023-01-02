@@ -10,6 +10,7 @@ const Id472 = require('./472')
 const Id264 = require('./264')
 const Id392 = require('./392')
 const Id488 = require('./488')
+
 const Utils = require('./Utils');
 const EventEmitter = require('events')
 
@@ -51,6 +52,7 @@ class MsInfo extends EventEmitter{
                 dark: true,
                 ger: 'park',
                 sensors: false
+
             },
             brightness: {
                 rawLightResistence: 0,
@@ -81,6 +83,7 @@ class MsInfo extends EventEmitter{
                 rearRightMiddle: 0,
                 rearRight: 0,
                 active: false
+
             }
         };
         //this.utils = new Utils(this.data.brightness, this.brightnessValues, dayGpio, nightGpio, exec, win);
