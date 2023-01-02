@@ -9,6 +9,7 @@ const Id424 = require('./424')
 const Id472 = require('./472')
 const Id264 = require('./264')
 const Id392 = require('./392')
+const Id488 = require('./488')
 const Utils = require('./Utils');
 const EventEmitter = require('events')
 
@@ -19,7 +20,7 @@ class MsInfo extends EventEmitter{
         this.bus = 'ms';
         this.canIds = canIds;
         this.outIds = outIds;
-        this.IDs = [968, 904, 680, 40, 360, 72, 840, 424, 472, 264, 392];
+        this.IDs = [968, 904, 680, 40, 360, 72, 840, 424, 472, 264, 392, 488];
         this.data = {
             tripInfo: {
                 tripDistance: {
@@ -47,8 +48,9 @@ class MsInfo extends EventEmitter{
 
             },
             mode: {
-                dark: false,
-                ger: 'park'
+                dark: true,
+                ger: 'park',
+                sensors: false
             },
             brightness: {
                 rawLightResistence: 0,
@@ -68,14 +70,27 @@ class MsInfo extends EventEmitter{
                 speed: 0,
                 coolant: 0,
                 revs: 0
+            },
+            pam: {
+                frontLeft: 0,
+                frontLeftMiddle: 0,
+                frontRightMiddle: 0,
+                frontRight: 0,
+                rearLeft: 0,
+                rearLeftMiddle: 0,
+                rearRightMiddle: 0,
+                rearRight: 0,
+                active: false
             }
         };
         //this.utils = new Utils(this.data.brightness, this.brightnessValues, dayGpio, nightGpio, exec, win);
         this.utils = new Utils(this.data.brightness, this.brightnessValues, exec, win);
         this.utils.on("Light", () => {
+            console.log("changed to light")
             this.data.mode.dark = false
         });
         this.utils.on("Dark", () => {
+            console.log("changed to dark")
             this.data.mode.dark = true
         })
         this.IdModules = {
@@ -89,7 +104,8 @@ class MsInfo extends EventEmitter{
             Id424: new Id424(),
             Id472: new Id472(),
             Id264: new Id264(),
-            Id392: new Id392()
+            Id392: new Id392(),
+            Id488: new Id488()
         }
 
     }

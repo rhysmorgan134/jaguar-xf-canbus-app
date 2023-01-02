@@ -4,6 +4,7 @@ import engineDetails from "./engineDetails";
 import appDetails from "./appDetails";
 import climate from "./climate";
 import settings from "./settings";
+import pam from "./pam";
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
     engineDetails: engineDetails,
     appDetails: appDetails,
     climate: climate,
-    settings: settings
+    settings: settings,
+    pam: pam
 })

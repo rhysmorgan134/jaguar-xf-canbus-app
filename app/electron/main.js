@@ -1,18 +1,28 @@
 const path = require('path');
 const url = require('url');
-const {app, BrowserWindow, ipcMain, ipcRenderer, globalShortcut} = require('electron');
+const {app, BrowserWindow, ipcMain, ipcRenderer, globalShortcut, dialog} = require('electron');
 const {channels} = require('../src/shared/constants');
+const dns = require('dns');
+const fs = require('fs')
 const { Readable } = require('stream');
 const isDev = require('electron-is-dev');
 const WebSocket = require('ws');
+const request = require('request');
+const semver = require('semver')
+const cp = require('child_process');
+
 require('update-electron-app')()
+
 const mp4Reader = new Readable({
     read(size) {
     }
 });
+
 const Carplay = require('node-carplay')
 const bindings = ['n', 'v', 'b', 'm', ]
 const keys = require('./bindings.json')
+
+
 let wss;
 wss = new WebSocket.Server({ port: 3002 });
 
@@ -32,7 +42,11 @@ wss.on('connection', function connection(ws) {
 
 
 let mainWindow;
-
+let internetConnection = false;
+let updateChecked = false
+let version =  app.getVersion()
+console.log(app.getAppPath())
+console.log(version)
 function createWindow() {
     const startUrl = process.env.ELECTRON_START_URL || url.format({
         pathname: path.join(__dirname, '../index.html'),
@@ -61,10 +75,13 @@ function createWindow() {
     }
 
     mainWindow.loadURL(startUrl);
+
     let size = mainWindow.getSize()
+
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
+
     const config = {
         dpi: 480,
         nightMode: 0,
@@ -119,8 +136,12 @@ function createWindow() {
             }
         })
     }
-
 }
+
+let connCheck = setInterval(() => {
+    console.log("checking connection")
+    checkConnection()
+}, 10000)
 
 app.on('ready', createWindow);
 app.on('window-all-closed', function () {
@@ -133,6 +154,95 @@ app.on('activate', function () {
         createWindow();
     }
 });
+
+const checkConnection = () => {
+    dns.lookupService('8.8.8.8', 53, function(err, hostname, service){
+        if(err) {
+            internetConnection = false
+            console.log(err)
+        } else {
+            console.log(hostname, service);
+            if(!updateChecked) {
+                checkIfUpdate()
+            }
+        }
+
+        // google-public-dns-a.google.com domain
+    });
+}
+
+const checkIfUpdate = () => {
+    const options = {
+        url: 'https://api.github.com/repos/rhysmorgan134/jaguar-xf-canbus-app/releases/latest',
+        headers: {
+            'User-Agent': 'request'
+        },
+        json: true
+    };
+    request(options, (err, res, body) => {
+        if (err) { return console.log(err); }
+        if(semver.valid(version) || semver.valid(body.tag_name)) {
+            if(semver.lt(version, body.tag_name)) {
+                console.log("update available")
+                let updateQuestion = dialog.showMessageBoxSync({
+                    message: "update available, do you wish to download",
+                    type: "question",
+                    buttons: ["Cancel", "update"],
+                })
+                if(updateQuestion) {
+                    downloadUpdate(body.assets[0].browser_download_url).then(() => {
+                        console.log("downloaded")
+                        var child = cp.spawn('sleep 5 && mv temp.AppImage jag.AppImage && chmod +x jag.AppImage && ./jag.AppImage',  { detached: true, shell: true})
+                        child.unref();
+                        app.quit()
+                    }).catch((err) => {
+                        console.log("error downloading", err)
+                    })
+                }
+            } else {
+                console.log("on latest version")
+            }
+            clearInterval(connCheck)
+        } else {
+            console.log("versioning number error, please download manually")
+        }
+
+        updateChecked = true;
+    });
+}
+
+const downloadUpdate = async (url) => {
+    /* Create an empty file where we can save data */
+    let file = fs.createWriteStream(`temp.AppImage`);
+    /* Using Promises so that we can use the ASYNC AWAIT syntax */
+    await new Promise((resolve, reject) => {
+        let stream = request({
+            /* Here you should specify the exact link to the file you are trying to download */
+            uri: url,
+            headers: {
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Accept-Language': 'en-US,en;q=0.9,fr;q=0.8,ro;q=0.7,ru;q=0.6,la;q=0.5,pt;q=0.4,de;q=0.3',
+                'Cache-Control': 'max-age=0',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
+            },
+            /* GZIP true for most of the websites now, disable it if you don't need it */
+            gzip: true
+        })
+            .pipe(file)
+            .on('finish', () => {
+                console.log(`The file is finished downloading.`);
+                resolve();
+            })
+            .on('error', (error) => {
+                reject(error);
+            })
+    })
+        .catch(error => {
+            console.log(`Something happened: ${error}`);
+        });
+}
 
 
 

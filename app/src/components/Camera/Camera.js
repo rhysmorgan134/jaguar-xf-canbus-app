@@ -21,7 +21,7 @@ const Camera = () => {
     };
 
     return (
-        <video ref={videoRef} />
+        <video ref={videoRef}/>
     );
 };
 

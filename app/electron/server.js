@@ -293,6 +293,9 @@ try {
         io.to('settings').emit('settings', msInfo.dataObj.settings);
 
         io.to('general').emit('general', msInfo.dataObj.mode)
+        if(msInfo.dataObj.pam.active) {
+            io.to('pam').emit('pam', msInfo.dataObj.pam)
+        }
 
         //turn the canbus array to buffer object
         out.data = new Buffer(msgOut.data)
