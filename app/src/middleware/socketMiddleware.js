@@ -6,7 +6,7 @@ import {
     SOCKET_ENGINE,
     SOCKET_TRIP,
     SOCKET_DIAG,
-    CURRENT_PAGE, LEAVE_PAGE, ROOM_JOINED, SOCKET_CLIMATE, MS_ACTION, SOCKET_SETTINGS, GENERAL, DISCONNECT
+    CURRENT_PAGE, LEAVE_PAGE, ROOM_JOINED, SOCKET_CLIMATE, MS_ACTION, SOCKET_SETTINGS, GENERAL, DISCONNECT, SOCKET_PAM
 } from "../actions/types";
 import io from "socket.io-client";
 
@@ -35,6 +35,7 @@ const socketMiddleware = () => {
                     store.dispatch({type: SOCKET_CONNECTED, payload: true})
                     socket.emit('join', {room: 'carplay'})
                     socket.emit('join', {room: 'general'})
+                    socket.emit('join', {room: 'pam'})
                 })
 
                 socket.on('error', (data) => {
@@ -75,6 +76,10 @@ const socketMiddleware = () => {
 
                 socket.on('climate', (data) => {
                     store.dispatch({type: SOCKET_CLIMATE, payload: data})
+                })
+
+                socket.on('pam', (data) => {
+                    store.dispatch({type: SOCKET_PAM, payload: data})
                 })
 
                 socket.on('diag', (data) => {

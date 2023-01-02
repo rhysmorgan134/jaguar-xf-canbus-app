@@ -16,6 +16,7 @@ import SwipeableEdgeDrawer from "./components/nav/swipeableNav";
 import Camera from "./components/Camera/Camera";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Pam from "./components/pam/Pam";
 
 //const electron = window.require("electron");
 
@@ -38,6 +39,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     boxShadow: 24,
+    display: "flex"
 };
 
 
@@ -62,7 +64,7 @@ function App({socketConnectT, appDetails}) {
 
 
     return (
-        <ThemeProvider theme={lightTheme}>
+        <ThemeProvider theme={appDetails.general.dark ? darkTheme :lightTheme}>
             <CssBaseline />
             <Container maxWidth={false} disableGutters sx={{height: '100%', maxHeight: '100%'}}>
                 <HashRouter>
@@ -80,10 +82,13 @@ function App({socketConnectT, appDetails}) {
                 </HashRouter>
             </Container>
             <Modal
-                open={appDetails.general.gear === "reverse"}
+                open={appDetails.general.sensors}
             >
                 <Box sx={style}>
                     <Camera />
+                    <div>
+                        <Pam/>
+                    </div>
                 </Box>
             </Modal>
         </ThemeProvider>

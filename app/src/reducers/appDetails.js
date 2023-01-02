@@ -1,6 +1,6 @@
 import {CURRENT_PAGE, GENERAL, LEAVE_PAGE, ROOM_JOINED, SOCKET_CONNECTED} from "../actions/types";
 
-export default (state={currentPage: 'climate', general: {dark: false, gear: "park"}}, action) => {
+export default (state={currentPage: 'climate', general: {dark: false, gear: "park", sensors: false}}, action) => {
     switch(action.type) {
         case SOCKET_CONNECTED:
             return {...state, connected: action.payload}

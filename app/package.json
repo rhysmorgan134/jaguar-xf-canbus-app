@@ -1,6 +1,6 @@
 {
   "name": "jag",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "private": true,
   "main": "electron/main.js",
   "author": {
@@ -38,6 +38,8 @@
     "react-swipeable-views-react-18-fix": "^0.14.1",
     "redux": "^4.1.2",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.2",
+    "semver": "^7.3.8",
     "serialport": "^8.0.7",
     "socket.io": "^3.0.5",
     "socket.io-client": "^3.0.5",
